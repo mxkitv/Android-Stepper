@@ -16,6 +16,7 @@ datastore = "1.1.6"
 ktor = "3.1.3"
 logback = "1.5.18"
 slf4j = "1.7.36"
+kotlinSerialization = "1.8.1"
 kotlinCoroutines = "1.10.2"
 coil = "3.1.0"
 leakCanary = "2.14"
@@ -53,7 +54,7 @@ ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor"}
 ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor"}
 logback = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback"}
 slf4j = { group = "org.slf4j", name = "slf4j-android", version.ref = "slf4j"}
-kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin"}
+kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization"}
 kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinCoroutines"}
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil"}
 coil-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor2", version.ref = "coil"}
