@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -56,4 +58,49 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+//    Architecture
+    implementation(libs.mvikotlin)
+    implementation(libs.mvikotlin.main)
+    implementation(libs.mvikotlin.logging)
+    implementation(libs.mvikotlin.timetravel)
+    implementation(libs.mvikotlin.coroutines)
+
+//    Navigation
+    implementation(libs.decompose)
+    implementation(libs.decompose.compose)
+
+//    Database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
+//    Local storage
+    implementation(libs.datastore)
+
+//    Network
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.cio)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.logback)
+    implementation(libs.slf4j)
+
+//    Serialization
+    implementation(libs.kotlin.serialization)
+
+//    Coroutines
+    implementation(libs.kotlin.coroutines)
+
+//    Image Loading
+    implementation(libs.coil)
+    implementation(libs.coil.ktor)
+
+//    DI
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compose)
+
+//    Logging
+    implementation(libs.leak.canary)
+    implementation(libs.timber)
 }
