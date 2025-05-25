@@ -3,9 +3,12 @@ package ru.naumov.androidstepper.onboarding.username
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
+import kotlinx.coroutines.launch
+import ru.naumov.androidstepper.data.UserRepository
 
 class UsernameStoreFactory(
-    private val storeFactory: StoreFactory
+    private val storeFactory: StoreFactory,
+    private val userRepository: UserRepository
 ) {
     fun create(): UsernameStore =
         object : UsernameStore,
@@ -19,17 +22,14 @@ class UsernameStoreFactory(
                     }
                     onIntent<UsernameIntent.ContinueClicked> {
                         val username = state().username.trim()
-                        val isValid = username.matches(
-                            Regex("""^[\p{L}\p{N}_\- .!@#$%^&*()+=:;'"?/<>{}\[\]|~`]{2,24}$""")
-                        )
-                        if (!isValid) {
-                            dispatch(
-                                UsernameMessage.SetError("От 2 до 24 символов, можно буквы, цифры, спецсимволы.")
-                            )
-                        } else {
+                        if (username.length in 2..24) {
                             dispatch(UsernameMessage.SetLoading(true))
-                            publish(UsernameLabel.NavigateNext)
-                            dispatch(UsernameMessage.SetLoading(false))
+                            launch {
+                                userRepository.saveUsername(username)
+                                publish(UsernameLabel.NavigateNext)
+                            }
+                        } else {
+                            dispatch(UsernameMessage.SetError("Имя должно содержать от 2 до 24 символов"))
                         }
                     }
                     onIntent<UsernameIntent.BackClicked> {
@@ -47,7 +47,8 @@ class UsernameStoreFactory(
                         )
 
                         is UsernameMessage.SetError -> copy(
-                            error = msg.value
+                            error = msg.value,
+                            isLoading = false
                         )
                     }
                 }

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "mat_android_intro",
+    "topicId": "android_intro",
+    "title": "История и особенности Android",
+    "content": "Android — это операционная система для мобильных устройств на базе ядра Linux. Первая версия вышла в 2008 году. Сейчас Android занимает более 70% мирового рынка мобильных ОС. Особенности платформы: открытость, большое комьюнити разработчиков, интеграция с сервисами Google."
+  },
+  {
+    "id": "mat_android_studio",
+    "topicId": "android_studio",
+    "title": "Установка и настройка Android Studio",
+    "content": "Android Studio — официальный IDE для разработки под Android. Загрузите установщик с сайта developer.android.com, следуйте инструкциям. Включите необходимые компоненты: Android SDK, эмулятор, плагины. Для запуска первого проекта: File → New Project, выберите шаблон (например, Empty Activity), задайте имя и дождитесь генерации кода."
+  },
+  {
+    "id": "mat_project_structure",
+    "topicId": "project_structure",
+    "title": "Основные папки и файлы проекта",
+    "content": "В корне Android-проекта находятся папки: app (код приложения), gradle (настройки сборки), build (сгенерированные файлы). В app/src/main: AndroidManifest.xml (описание компонентов), java/ и kotlin/ (исходники), res/ (ресурсы: layout, drawable, values). Gradle-сценарии управляют зависимостями и сборкой."
+  },
+  {
+    "id": "mat_activity_lifecycle",
+    "topicId": "activity_lifecycle",
+    "title": "Жизненный цикл Activity",
+    "content": "Activity — базовый компонент UI в Android. Основные методы жизненного цикла: onCreate, onStart, onResume, onPause, onStop, onDestroy. Жизненный цикл позволяет управлять ресурсами и состоянием экрана. В onCreate происходит инициализация UI, onPause и onStop — освобождение ресурсов."
+  },
+  {
+    "id": "mat_ui_basics",
+    "topicId": "ui_basics",
+    "title": "Базовые элементы интерфейса",
+    "content": "Android поддерживает множество UI-компонентов: TextView (отображение текста), Button (кнопка), EditText (поле ввода). Они размещаются в разметке XML или через Jetpack Compose. Каждый элемент имеет свойства (текст, размер, стиль) и может реагировать на события пользователя."
+  },
+  {
+    "id": "mat_kotlin_syntax",
+    "topicId": "kotlin_syntax",
+    "title": "Основы синтаксиса Kotlin",
+    "content": "Kotlin — статически типизированный язык с лаконичным синтаксисом. Переменные объявляются через val (immutable) или var (mutable): val name = \"Alex\". Есть базовые типы: Int, String, Boolean. Управляющие конструкции: if, when, for, while. Все классы, функции и переменные — объекты."
+  },
+  {
+    "id": "mat_kotlin_functions",
+    "topicId": "kotlin_functions",
+    "title": "Функции и параметры в Kotlin",
+    "content": "Функции объявляются с ключевым словом fun: fun sum(a: Int, b: Int): Int { return a + b }. Параметры могут иметь значения по умолчанию. Поддерживаются лямбды и анонимные функции. Функции — first-class citizens: можно передавать и возвращать их как объекты."
+  },
+  {
+    "id": "mat_kotlin_classes",
+    "topicId": "kotlin_classes",
+    "title": "Классы и объекты",
+    "content": "В Kotlin классы объявляются через ключевое слово class: class User(val name: String). Конструктор может быть основным или дополнительным. Поддерживаются наследование, интерфейсы, data class (для хранения данных), singleton через object."
+  },
+  {
+    "id": "mat_kotlin_collections",
+    "topicId": "kotlin_collections",
+    "title": "Коллекции в Kotlin",
+    "content": "В стандартной библиотеке есть List, Set, Map. Списки бывают изменяемыми (mutableListOf) и неизменяемыми (listOf). Для работы с коллекциями удобно использовать map, filter, forEach, groupBy и другие методы."
+  },
+  {
+    "id": "mat_kotlin_null_safety",
+    "topicId": "kotlin_null_safety",
+    "title": "Null safety и безопасность типов",
+    "content": "В Kotlin переменная может быть nullable, если указать ? после типа: var text: String? = null. Для безопасного доступа к значениям используются операторы ?., !! и конструкции if (text != null). Это снижает риск NullPointerException."
+  },
+  {
+    "id": "mat_compose_intro",
+    "topicId": "compose_intro",
+    "title": "Введение в Jetpack Compose",
+    "content": "Jetpack Compose — это декларативный фреймворк для создания UI на Android. Все элементы описываются как функции-компоненты. Преимущества: меньше кода, удобная реакция на изменения состояния, интеграция с современным Android API."
+  },
+  {
+    "id": "mat_compose_basic_elements",
+    "topicId": "compose_basic_elements",
+    "title": "Базовые компоненты Compose",
+    "content": "Главные элементы: Text, Button, Image, Row, Column, Box. Все компоненты можно комбинировать и стилизовать с помощью модификаторов. Разметка UI осуществляется кодом на Kotlin, без XML."
+  },
+  {
+    "id": "mat_compose_state",
+    "topicId": "compose_state",
+    "title": "Состояние в Compose",
+    "content": "В Compose состояние хранится с помощью remember и mutableStateOf. С изменением состояния автоматически перерисовывается UI. Можно использовать ViewModel для хранения долгоживущего состояния между рекомпозициями."
+  },
+  {
+    "id": "mat_compose_navigation",
+    "topicId": "compose_navigation",
+    "title": "Навигация в Compose",
+    "content": "Для навигации между экранами используют библиотеку Navigation Compose. Навигация реализуется через NavHost и NavController, поддерживаются переходы по именам экранов и аргументам."
+  },
+  {
+    "id": "mat_mvi_intro",
+    "topicId": "mvi_intro",
+    "title": "Архитектура приложения",
+    "content": "Архитектура — это фундамент для поддерживаемого приложения. Она помогает разделять бизнес-логику, UI и работу с данными. Хорошая архитектура ускоряет разработку и упрощает тестирование."
+  },
+  {
+    "id": "mat_mvi_pattern",
+    "topicId": "mvi_pattern",
+    "title": "Паттерн MVI",
+    "content": "Model-View-Intent — это архитектурный паттерн, который обеспечивает однонаправленный поток данных. Все пользовательские действия переводятся в Intent, которые изменяют State. View отображает только State, что упрощает отладку и масштабирование."
+  },
+  {
+    "id": "mat_mvi_in_mvikotlin",
+    "topicId": "mvi_in_mvikotlin",
+    "title": "Использование MVIKotlin",
+    "content": "MVIKotlin — библиотека для реализации MVI-паттерна на Kotlin. Позволяет централизованно хранить состояние, отделять Executor (бизнес-логику) от Reducer (изменения состояния), обрабатывать side effects через Label. Поддерживает корутины и мультиплатформенность."
+  },
+  {
+    "id": "mat_repository_pattern",
+    "topicId": "repository_pattern",
+    "title": "Паттерн Repository",
+    "content": "Repository — прослойка между данными (Room, Network, DataStore) и бизнес-логикой. Позволяет менять источник данных без изменения остального кода. Рекомендуется использовать для удобства тестирования и поддержки приложения."
+  },
+  {
+    "id": "mat_room_intro",
+    "topicId": "room_intro",
+    "title": "Введение в Room",
+    "content": "Room — это библиотека для работы с базой данных SQLite в Android. Автоматически генерирует код, обеспечивает compile-time проверки запросов, поддерживает миграции. Работа строится через Entity, Dao и саму RoomDatabase."
+  },
+  {
+    "id": "mat_room_entities",
+    "topicId": "room_entities",
+    "title": "Создание сущностей Room",
+    "content": "Сущности (Entity) — это Kotlin-классы, аннотированные @Entity, которые представляют таблицы в базе. Dao — интерфейсы с аннотациями @Query, @Insert и т.д. RoomDatabase — основной класс для доступа ко всем Dao."
+  },
+  {
+    "id": "mat_datastore",
+    "topicId": "datastore",
+    "title": "Использование DataStore",
+    "content": "DataStore — это современная альтернатива SharedPreferences для хранения небольших настроек и данных пользователя. Поддерживает типы Preferences и Proto DataStore, работает асинхронно, интегрируется с Flow и Coroutines."
+  }
+]

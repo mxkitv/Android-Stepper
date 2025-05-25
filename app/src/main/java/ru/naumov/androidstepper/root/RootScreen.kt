@@ -33,6 +33,7 @@ fun RootScreen(component: RootComponent) {
             is RootComponent.Child.CourseTopics -> CourseTopicsScreen(child.component)
             is RootComponent.Child.Topic -> TopicScreen(child.component)
             is RootComponent.Child.Test -> TestScreen(child.component)           // <--- добавлено
+            is RootComponent.Child.Loading -> {}
         }
     }
 }

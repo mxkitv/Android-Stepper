@@ -1,0 +1,142 @@
+[
+  {
+    "id": "android_basics",
+    "title": "Основы Android",
+    "description": "Введение в разработку под Android: архитектура, инструменты, первый проект.",
+    "topics": [
+      {
+        "id": "android_intro",
+        "title": "Что такое Android?",
+        "description": "История, особенности и перспективы платформы."
+      },
+      {
+        "id": "android_studio",
+        "title": "Знакомство с Android Studio",
+        "description": "Как установить, настроить и запустить первую программу."
+      },
+      {
+        "id": "project_structure",
+        "title": "Структура проекта",
+        "description": "Основные папки и файлы, манифест, Gradle."
+      },
+      {
+        "id": "activity_lifecycle",
+        "title": "Activity и жизненный цикл",
+        "description": "Что такое Activity, жизненный цикл, основные методы."
+      },
+      {
+        "id": "ui_basics",
+        "title": "Базовые элементы интерфейса",
+        "description": "TextView, Button, EditText и их использование."
+      }
+    ]
+  },
+  {
+    "id": "kotlin_basics",
+    "title": "Kotlin для Android",
+    "description": "Язык программирования Kotlin — современный стандарт для Android.",
+    "topics": [
+      {
+        "id": "kotlin_syntax",
+        "title": "Базовый синтаксис Kotlin",
+        "description": "Переменные, типы данных, выражения, инструкции."
+      },
+      {
+        "id": "kotlin_functions",
+        "title": "Функции и параметры",
+        "description": "Как объявлять и использовать функции в Kotlin."
+      },
+      {
+        "id": "kotlin_classes",
+        "title": "Классы и объекты",
+        "description": "Основы ООП: классы, конструкторы, свойства."
+      },
+      {
+        "id": "kotlin_collections",
+        "title": "Коллекции",
+        "description": "Списки, множества, карты, работа с коллекциями."
+      },
+      {
+        "id": "kotlin_null_safety",
+        "title": "Null-safety",
+        "description": "Работа с nullable-типами и безопасным кодом."
+      }
+    ]
+  },
+  {
+    "id": "jetpack_compose",
+    "title": "Jetpack Compose",
+    "description": "Современный подход к созданию UI в Android.",
+    "topics": [
+      {
+        "id": "compose_intro",
+        "title": "Введение в Compose",
+        "description": "Зачем нужен Compose и его плюсы."
+      },
+      {
+        "id": "compose_basic_elements",
+        "title": "Базовые компоненты Compose",
+        "description": "Text, Button, Row, Column, Image."
+      },
+      {
+        "id": "compose_state",
+        "title": "Работа с состоянием",
+        "description": "MutableState, State, remember."
+      },
+      {
+        "id": "compose_navigation",
+        "title": "Навигация в Compose",
+        "description": "Навигация между экранами с Compose Navigation."
+      }
+    ]
+  },
+  {
+    "id": "architecture",
+    "title": "Архитектура Android-приложений",
+    "description": "Почему важна архитектура и как строить поддерживаемые приложения.",
+    "topics": [
+      {
+        "id": "mvi_intro",
+        "title": "Введение в архитектуру",
+        "description": "Что такое архитектура, зачем она нужна."
+      },
+      {
+        "id": "mvi_pattern",
+        "title": "Паттерн MVI",
+        "description": "Model-View-Intent — основы и принципы."
+      },
+      {
+        "id": "mvi_in_mvikotlin",
+        "title": "MVIKotlin",
+        "description": "Практика: использование MVIKotlin для управления состоянием."
+      },
+      {
+        "id": "repository_pattern",
+        "title": "Паттерн Repository",
+        "description": "Изоляция данных от UI, преимущества."
+      }
+    ]
+  },
+  {
+    "id": "data_storage",
+    "title": "Хранение данных",
+    "description": "Способы хранения данных в Android.",
+    "topics": [
+      {
+        "id": "room_intro",
+        "title": "Введение в Room",
+        "description": "Для чего нужен Room и как он работает."
+      },
+      {
+        "id": "room_entities",
+        "title": "Создание сущностей Room",
+        "description": "Entity, Dao, Database — простейшая реализация."
+      },
+      {
+        "id": "datastore",
+        "title": "DataStore",
+        "description": "Хранение простых данных и настроек пользователя."
+      }
+    ]
+  }
+]

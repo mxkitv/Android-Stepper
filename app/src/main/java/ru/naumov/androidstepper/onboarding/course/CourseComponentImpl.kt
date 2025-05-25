@@ -12,18 +12,30 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import org.koin.java.KoinJavaComponent.inject
 import ru.naumov.androidstepper.asValue
+import ru.naumov.androidstepper.data.CourseRepository
+import ru.naumov.androidstepper.data.SelectedCourseRepository
+import ru.naumov.androidstepper.data.UserRepository
+import kotlin.getValue
 
 class CourseComponentImpl(
     componentContext: ComponentContext,
     storeFactory: StoreFactory,
     private val output: Consumer<CourseComponent.CourseOutput>
-) : CourseComponent, ComponentContext by componentContext {
+) : CourseComponent, ComponentContext by componentContext, KoinComponent {
+
+    private val courseRepository: CourseRepository by inject()
+    private val selectedCourseRepository: SelectedCourseRepository by inject()
 
     private val store =
         instanceKeeper.getStore {
             CourseStoreFactory(
-                storeFactory = storeFactory
+                storeFactory = storeFactory,
+                selectedCourseRepository = selectedCourseRepository,
+                courseRepository = courseRepository
             ).create()
         }
 
@@ -42,12 +54,8 @@ class CourseComponentImpl(
             .launchIn(scope)
     }
 
-    override fun onCourseSelected(courseId: String) {
-        store.accept(CourseIntent.CourseSelected(courseId))
-    }
-
-    override fun onCourseDeselected(courseId: String) {
-        store.accept(CourseIntent.CourseDeselected(courseId))
+    override fun onCourseToggled(courseId: String) {
+        store.accept(CourseIntent.ToggleCourse(courseId))
     }
 
     override fun onContinue() {

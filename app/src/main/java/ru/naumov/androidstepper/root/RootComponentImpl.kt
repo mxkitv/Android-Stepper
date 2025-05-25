@@ -6,10 +6,12 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.badoo.reaktive.base.Consumer
 import kotlinx.serialization.Serializable
+import org.koin.core.component.KoinComponent
 import ru.naumov.androidstepper.onboarding.username.UsernameComponent
 import ru.naumov.androidstepper.onboarding.username.UsernameComponentImpl
 import ru.naumov.androidstepper.onboarding.level.LevelComponent
@@ -24,20 +26,23 @@ import ru.naumov.androidstepper.coursedetail.CourseDetailComponent
 import ru.naumov.androidstepper.coursedetail.CourseDetailComponentImpl
 import ru.naumov.androidstepper.coursetopics.CourseTopicsComponent
 import ru.naumov.androidstepper.coursetopics.CourseTopicsComponentImpl
+import ru.naumov.androidstepper.loading.LoadingComponent
+import ru.naumov.androidstepper.loading.LoadingComponent.LoadingOutput
+import ru.naumov.androidstepper.loading.LoadingComponentImpl
 import ru.naumov.androidstepper.topic.TopicComponent
 import ru.naumov.androidstepper.topic.TopicComponentImpl
-import ru.naumov.androidstepper.test.TestComponent      // <-- добавлено
-import ru.naumov.androidstepper.test.TestComponentImpl  // <-- добавлено
-
+import ru.naumov.androidstepper.test.TestComponent
+import ru.naumov.androidstepper.test.TestComponentImpl
 import ru.naumov.androidstepper.home.HomeComponent.Output as HomeOutput
 import ru.naumov.androidstepper.courses.CourseListComponent.Output as CourseListOutput
 import ru.naumov.androidstepper.coursedetail.CourseDetailComponent.Output as CourseDetailOutput
 import ru.naumov.androidstepper.coursetopics.CourseTopicsComponent.Output as CourseTopicsOutput
 import ru.naumov.androidstepper.topic.TopicComponent.Output as TopicOutput
-import ru.naumov.androidstepper.test.TestComponent.Output as TestOutput   // <-- добавлено
+import ru.naumov.androidstepper.test.TestComponent.Output as TestOutput
 import ru.naumov.androidstepper.onboarding.course.CourseComponent.CourseOutput
 import ru.naumov.androidstepper.onboarding.level.LevelComponent.LevelOutput
 import ru.naumov.androidstepper.onboarding.username.UsernameComponent.UsernameOutput
+import ru.naumov.androidstepper.root.RootComponent.Child.*
 
 class RootComponentImpl(
     componentContext: ComponentContext,
@@ -49,8 +54,9 @@ class RootComponentImpl(
     private val courseDetailComponent: (ComponentContext, String, Consumer<CourseDetailOutput>) -> CourseDetailComponent,
     private val courseTopicsComponent: (ComponentContext, String, Consumer<CourseTopicsOutput>) -> CourseTopicsComponent,
     private val topicComponent: (ComponentContext, String, Consumer<TopicOutput>) -> TopicComponent,
-    private val testComponent: (ComponentContext, String, Consumer<TestOutput>) -> TestComponent // <-- добавлено
-) : RootComponent, ComponentContext by componentContext {
+    private val testComponent: (ComponentContext, String, Consumer<TestOutput>) -> TestComponent, // <-- добавлено
+    private val loadingComponent: (ComponentContext, Consumer<LoadingComponent.LoadingOutput>) -> LoadingComponent
+) : RootComponent, ComponentContext by componentContext, KoinComponent {
 
     constructor(
         componentContext: ComponentContext,
@@ -62,17 +68,37 @@ class RootComponentImpl(
         courseComponent = { ctx, output -> CourseComponentImpl(ctx, storeFactory, output) },
         homeComponent = { ctx, output -> HomeComponentImpl(ctx, storeFactory, output) },
         courseListComponent = { ctx, output -> CourseListComponentImpl(ctx, storeFactory, output) },
-        courseDetailComponent = { ctx, courseId, output -> CourseDetailComponentImpl(ctx, storeFactory, output) },
-        courseTopicsComponent = { ctx, courseId, output -> CourseTopicsComponentImpl(ctx, storeFactory, courseId, output) },
+        courseDetailComponent = { ctx, courseId, output ->
+            CourseDetailComponentImpl(
+                ctx,
+                storeFactory,
+                output
+            )
+        },
+        courseTopicsComponent = { ctx, courseId, output ->
+            CourseTopicsComponentImpl(
+                ctx,
+                storeFactory,
+                courseId,
+                output
+            )
+        },
         topicComponent = { ctx, topicId, output -> TopicComponentImpl(ctx, storeFactory, output) },
-        testComponent = { ctx, topicId, output -> TestComponentImpl(ctx, storeFactory, output) } // <-- добавлено
+        testComponent = { ctx, topicId, output ->
+            TestComponentImpl(
+                ctx,
+                storeFactory,
+                output
+            )
+        }, // <-- добавлено
+        loadingComponent = { ctx, output -> LoadingComponentImpl(ctx, output) }
     )
 
     private val navigation = StackNavigation<Configuration>()
 
     private val stack = childStack(
         source = navigation,
-        initialConfiguration = Configuration.Username,
+        initialConfiguration = Configuration.Loading,
         handleBackButton = true,
         childFactory = ::createChild,
         serializer = Configuration.serializer()
@@ -85,32 +111,56 @@ class RootComponentImpl(
         componentContext: ComponentContext
     ): RootComponent.Child =
         when (configuration) {
-            is Configuration.Username -> RootComponent.Child.Username(
+            is Configuration.Username -> Username(
                 usernameComponent(componentContext, Consumer(::onUsernameOutput))
             )
-            is Configuration.Level -> RootComponent.Child.Level(
+
+            is Configuration.Level -> Level(
                 levelComponent(componentContext, Consumer(::onLevelOutput))
             )
-            is Configuration.Course -> RootComponent.Child.Course(
+
+            is Configuration.Course -> Course(
                 courseComponent(componentContext, Consumer(::onCourseOutput))
             )
-            is Configuration.Home -> RootComponent.Child.Home(
+
+            is Configuration.Home -> Home(
                 homeComponent(componentContext, Consumer(::onHomeOutput))
             )
-            is Configuration.CourseList -> RootComponent.Child.CourseList(
+
+            is Configuration.CourseList -> CourseList(
                 courseListComponent(componentContext, Consumer(::onCourseListOutput))
             )
-            is Configuration.CourseDetail -> RootComponent.Child.CourseDetail(
-                courseDetailComponent(componentContext, configuration.courseId, Consumer(::onCourseDetailOutput))
+
+            is Configuration.CourseDetail -> CourseDetail(
+                courseDetailComponent(
+                    componentContext,
+                    configuration.courseId,
+                    Consumer(::onCourseDetailOutput)
+                )
             )
-            is Configuration.CourseTopics -> RootComponent.Child.CourseTopics(
-                courseTopicsComponent(componentContext, configuration.courseId, Consumer(::onCourseTopicsOutput))
+
+            is Configuration.CourseTopics -> CourseTopics(
+                courseTopicsComponent(
+                    componentContext,
+                    configuration.courseId,
+                    Consumer(::onCourseTopicsOutput)
+                )
             )
-            is Configuration.Topic -> RootComponent.Child.Topic(
+
+            is Configuration.Topic -> Topic(
                 topicComponent(componentContext, configuration.topicId, Consumer(::onTopicOutput))
             )
-            is Configuration.Test -> RootComponent.Child.Test(
-                testComponent(componentContext, configuration.topicId, Consumer(::onTestOutput)) // <-- добавлено
+
+            is Configuration.Test -> Test(
+                testComponent(
+                    componentContext,
+                    configuration.topicId,
+                    Consumer(::onTestOutput)
+                )
+            )
+
+            Configuration.Loading -> Loading(
+                loadingComponent(componentContext, Consumer(::onLoadingOutput))
             )
         }
 
@@ -152,8 +202,14 @@ class RootComponentImpl(
     private fun onCourseListOutput(output: CourseListOutput) {
         when (output) {
             is CourseListOutput.OpenMyCourse -> navigation.push(Configuration.CourseTopics(output.courseId))
-            is CourseListOutput.OpenCourseDetail -> navigation.push(Configuration.CourseDetail(output.courseId))
-            is CourseListOutput.ShowMessage -> { /* ничего, snackbar и т.д. */ }
+            is CourseListOutput.OpenCourseDetail -> navigation.push(
+                Configuration.CourseDetail(
+                    output.courseId
+                )
+            )
+
+            is CourseListOutput.ShowMessage -> { /* ничего, snackbar и т.д. */
+            }
         }
     }
 
@@ -177,7 +233,11 @@ class RootComponentImpl(
         when (output) {
             TopicOutput.NavigateBack -> navigation.pop()
             TopicOutput.NavigateToTest -> {
-                navigation.push(Configuration.Test(/* topicId должен быть взят из текущей конфигурации Topic */ lastOpenedTopicId ?: ""))
+                navigation.push(
+                    Configuration.Test(/* topicId должен быть взят из текущей конфигурации Topic */
+                        lastOpenedTopicId ?: ""
+                    )
+                )
             }
         }
     }
@@ -189,6 +249,12 @@ class RootComponentImpl(
             TestOutput.ShowResult -> {
                 // Можно показать что-то, например диалог
             }
+        }
+    }
+
+    private fun onLoadingOutput(output: LoadingOutput) {
+        when (output) {
+            is LoadingOutput.onLoaded -> navigation.replaceAll(output.config)
         }
     }
 
@@ -211,15 +277,26 @@ class RootComponentImpl(
     }
 
     @Serializable
-    private sealed interface Configuration {
-        @Serializable object Username : Configuration
-        @Serializable object Level : Configuration
-        @Serializable object Course : Configuration
-        @Serializable object Home : Configuration
-        @Serializable object CourseList : Configuration
-        @Serializable data class CourseDetail(val courseId: String) : Configuration
-        @Serializable data class CourseTopics(val courseId: String) : Configuration
-        @Serializable data class Topic(val topicId: String) : Configuration
-        @Serializable data class Test(val topicId: String) : Configuration    // <-- добавлено
+    sealed interface Configuration {
+        @Serializable
+        object Username : Configuration
+        @Serializable
+        object Level : Configuration
+        @Serializable
+        object Course : Configuration
+        @Serializable
+        object Home : Configuration
+        @Serializable
+        object CourseList : Configuration
+        @Serializable
+        data class CourseDetail(val courseId: String) : Configuration
+        @Serializable
+        data class CourseTopics(val courseId: String) : Configuration
+        @Serializable
+        data class Topic(val topicId: String) : Configuration
+        @Serializable
+        data class Test(val topicId: String) : Configuration    // <-- добавлено
+        @Serializable
+        object Loading : Configuration
     }
 }

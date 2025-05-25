@@ -1,8 +1,9 @@
 package ru.naumov.androidstepper.onboarding.course
 
+import ru.naumov.androidstepper.data.database.CourseEntity
+
 sealed interface CourseMessage {
-    data class CourseSelected(val courseId: String) : CourseMessage
-    data class CourseDeselected(val courseId: String) : CourseMessage
+    data class SetCourses(val courses: List<CourseEntity>, val selectedIds: List<String>) : CourseMessage
+    data class SetSelectedCourses(val selected: Set<String>) : CourseMessage
     data class SetLoading(val value: Boolean) : CourseMessage
-    data class SetError(val value: String?) : CourseMessage
 }

@@ -81,7 +81,8 @@ dependencies {
     ksp(libs.room.compiler)
 
 //    Local storage
-    implementation(libs.datastore)
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore.core)
 
 //    Network
     implementation(libs.ktor.core)

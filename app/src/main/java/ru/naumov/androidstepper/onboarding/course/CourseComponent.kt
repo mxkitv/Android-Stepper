@@ -1,19 +1,19 @@
 package ru.naumov.androidstepper.onboarding.course
 
 import com.arkivanov.decompose.value.Value
+import ru.naumov.androidstepper.data.database.CourseEntity
 
 interface CourseComponent {
     val model: Value<CourseModel>
 
-    fun onCourseSelected(courseId: String)
-    fun onCourseDeselected(courseId: String)
+    fun onCourseToggled(courseId: String)
     fun onContinue()
     fun onBack()
 
     data class CourseModel(
+        val courses: List<CourseEntity> = emptyList(),
         val selectedCourseIds: Set<String> = emptySet(),
-        val isLoading: Boolean = false,
-        val error: String? = null
+        val isLoading: Boolean = false
     )
 
     sealed interface CourseOutput {

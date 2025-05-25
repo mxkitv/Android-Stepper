@@ -2,35 +2,47 @@ package ru.naumov.androidstepper.onboarding.course
 
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
+import com.arkivanov.mvikotlin.extensions.coroutines.coroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
+import kotlinx.coroutines.launch
+import ru.naumov.androidstepper.data.CourseRepository
+import ru.naumov.androidstepper.data.SelectedCourseRepository
 
 class CourseStoreFactory(
     private val storeFactory: StoreFactory,
+    private val selectedCourseRepository: SelectedCourseRepository,
+    private val courseRepository: CourseRepository,
     // Можно прокидывать список доступных курсов при необходимости
 ) {
     fun create(): CourseStore =
         object : CourseStore,
-            Store<CourseIntent, CourseState, CourseLabel> by storeFactory.create<CourseIntent, Nothing, CourseMessage, CourseState, CourseLabel>(
+            Store<CourseIntent, CourseState, CourseLabel> by storeFactory.create<CourseIntent, CourseAction, CourseMessage, CourseState, CourseLabel>(
                 name = "CourseStore",
                 initialState = CourseState(),
+                bootstrapper = coroutineBootstrapper {
+                    dispatch(CourseAction.LoadCourses)
+                },
                 executorFactory = coroutineExecutorFactory {
-                    onIntent<CourseIntent.CourseSelected> { intent ->
-                        dispatch(CourseMessage.CourseSelected(intent.courseId))
-                        dispatch(CourseMessage.SetError(null))
+                    onAction<CourseAction.LoadCourses> {
+                        dispatch(CourseMessage.SetLoading(true))
+                        launch {
+                            val allCourses = courseRepository.getAllCourses()
+                            val selectedIds = selectedCourseRepository.getSelectedCourses()
+                            dispatch(CourseMessage.SetCourses(allCourses, selectedIds))
+                        }
                     }
-                    onIntent<CourseIntent.CourseDeselected> { intent ->
-                        dispatch(CourseMessage.CourseDeselected(intent.courseId))
-                        dispatch(CourseMessage.SetError(null))
+                    onIntent<CourseIntent.ToggleCourse> { intent ->
+                        val currentSelected = state().selectedCourseIds.toMutableSet()
+                        if (currentSelected.contains(intent.courseId))
+                            currentSelected.remove(intent.courseId)
+                        else
+                            currentSelected.add(intent.courseId)
+                        dispatch(CourseMessage.SetSelectedCourses(currentSelected))
                     }
                     onIntent<CourseIntent.ContinueClicked> {
-                        val selected = state().selectedCourseIds
-                        if (selected.isEmpty()) {
-                            dispatch(CourseMessage.SetError("course_error_choose"))
-                        } else {
-                            dispatch(CourseMessage.SetLoading(true))
-                            // Здесь можно эмулировать сохранение, переход и т.д.
+                        launch {
+                            selectedCourseRepository.setSelectedCourses(state().selectedCourseIds.toList())
                             publish(CourseLabel.NavigateNext)
-                            dispatch(CourseMessage.SetLoading(false))
                         }
                     }
                     onIntent<CourseIntent.BackClicked> {
@@ -39,18 +51,13 @@ class CourseStoreFactory(
                 },
                 reducer = { msg ->
                     when (msg) {
-                        is CourseMessage.CourseSelected -> copy(
-                            selectedCourseIds = selectedCourseIds + msg.courseId
+                        is CourseMessage.SetCourses -> copy(
+                            courses = msg.courses,
+                            selectedCourseIds = msg.selectedIds.toSet(),
+                            isLoading = false
                         )
-                        is CourseMessage.CourseDeselected -> copy(
-                            selectedCourseIds = selectedCourseIds - msg.courseId
-                        )
-                        is CourseMessage.SetLoading -> copy(
-                            isLoading = msg.value
-                        )
-                        is CourseMessage.SetError -> copy(
-                            error = msg.value
-                        )
+                        is CourseMessage.SetSelectedCourses -> copy(selectedCourseIds = msg.selected)
+                        is CourseMessage.SetLoading -> copy(isLoading = msg.value)
                     }
                 }
             ) {}

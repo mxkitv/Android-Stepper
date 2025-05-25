@@ -9,6 +9,7 @@ import ru.naumov.androidstepper.home.HomeComponent
 import ru.naumov.androidstepper.courses.CourseListComponent
 import ru.naumov.androidstepper.coursedetail.CourseDetailComponent
 import ru.naumov.androidstepper.coursetopics.CourseTopicsComponent
+import ru.naumov.androidstepper.loading.LoadingComponent
 import ru.naumov.androidstepper.topic.TopicComponent
 import ru.naumov.androidstepper.test.TestComponent
 
@@ -24,6 +25,7 @@ interface RootComponent {
         data class CourseDetail(val component: CourseDetailComponent) : Child
         data class CourseTopics(val component: CourseTopicsComponent) : Child
         data class Topic(val component: TopicComponent) : Child
-        data class Test(val component: TestComponent) : Child        // <--- добавлено
+        data class Test(val component: TestComponent) : Child
+        data class Loading(val component: LoadingComponent) : Child
     }
 }

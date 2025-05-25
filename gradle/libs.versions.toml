@@ -49,7 +49,8 @@ decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-comp
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
-datastore = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore"}
+datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
+datastore-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore"}
 ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor"}
 ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor"}
 ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor"}

@@ -3,9 +3,12 @@ package ru.naumov.androidstepper.onboarding.level
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
+import kotlinx.coroutines.launch
+import ru.naumov.androidstepper.data.UserRepository
 
 class LevelStoreFactory(
-    private val storeFactory: StoreFactory
+    private val storeFactory: StoreFactory,
+    private val userRepository: UserRepository
 ) {
     fun create(): LevelStore =
         object : LevelStore,
@@ -15,21 +18,20 @@ class LevelStoreFactory(
                 executorFactory = coroutineExecutorFactory {
                     onIntent<LevelIntent.LevelSelected> { intent ->
                         dispatch(LevelMessage.LevelSelected(intent.level))
-                        // Можно сбрасывать ошибку, если она была
                         dispatch(LevelMessage.SetError(null))
                     }
-                    onIntent<LevelIntent.ContinueClicked> {
-                        val selected = state().selectedLevel
-                        if (selected == null) {
-                            dispatch(LevelMessage.SetError("level_error_choose_level"))
-                        } else {
+                    onIntent<LevelIntent.ContinueClicked> { it: LevelIntent.ContinueClicked ->
+                        val level = state().selectedLevel
+                        if (level != null) {
                             dispatch(LevelMessage.SetLoading(true))
-                            // Сохраняем/отправляем на сервер и т.д.
-                            publish(LevelLabel.NavigateNext)
-                            dispatch(LevelMessage.SetLoading(false))
+                            launch {
+                                userRepository.saveUserLevel(level.name)
+                                publish(LevelLabel.NavigateNext)
+                            }
+                        } else {
+                            dispatch(LevelMessage.SetError("Пожалуйста, выберите уровень"))
                         }
                     }
-
                     onIntent<LevelIntent.BackClicked> {
                         publish(LevelLabel.NavigateBack)
                     }
@@ -43,7 +45,7 @@ class LevelStoreFactory(
                             isLoading = msg.value
                         )
                         is LevelMessage.SetError -> copy(
-                            error = msg.value
+                            error = msg.value, isLoading = false
                         )
                     }
                 }

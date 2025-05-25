@@ -1,0 +1,132 @@
+[
+  {
+    "id": "android_intro",
+    "courseId": "android_basics",
+    "title": "Что такое Android?",
+    "description": "История, особенности и перспективы платформы."
+  },
+  {
+    "id": "android_studio",
+    "courseId": "android_basics",
+    "title": "Знакомство с Android Studio",
+    "description": "Как установить, настроить и запустить первую программу."
+  },
+  {
+    "id": "project_structure",
+    "courseId": "android_basics",
+    "title": "Структура проекта",
+    "description": "Основные папки и файлы, манифест, Gradle."
+  },
+  {
+    "id": "activity_lifecycle",
+    "courseId": "android_basics",
+    "title": "Activity и жизненный цикл",
+    "description": "Что такое Activity, жизненный цикл, основные методы."
+  },
+  {
+    "id": "ui_basics",
+    "courseId": "android_basics",
+    "title": "Базовые элементы интерфейса",
+    "description": "TextView, Button, EditText и их использование."
+  },
+
+  {
+    "id": "kotlin_syntax",
+    "courseId": "kotlin_basics",
+    "title": "Базовый синтаксис Kotlin",
+    "description": "Переменные, типы данных, выражения, инструкции."
+  },
+  {
+    "id": "kotlin_functions",
+    "courseId": "kotlin_basics",
+    "title": "Функции и параметры",
+    "description": "Как объявлять и использовать функции в Kotlin."
+  },
+  {
+    "id": "kotlin_classes",
+    "courseId": "kotlin_basics",
+    "title": "Классы и объекты",
+    "description": "Основы ООП: классы, конструкторы, свойства."
+  },
+  {
+    "id": "kotlin_collections",
+    "courseId": "kotlin_basics",
+    "title": "Коллекции",
+    "description": "Списки, множества, карты, работа с коллекциями."
+  },
+  {
+    "id": "kotlin_null_safety",
+    "courseId": "kotlin_basics",
+    "title": "Null-safety",
+    "description": "Работа с nullable-типами и безопасным кодом."
+  },
+
+  {
+    "id": "compose_intro",
+    "courseId": "jetpack_compose",
+    "title": "Введение в Compose",
+    "description": "Зачем нужен Compose и его плюсы."
+  },
+  {
+    "id": "compose_basic_elements",
+    "courseId": "jetpack_compose",
+    "title": "Базовые компоненты Compose",
+    "description": "Text, Button, Row, Column, Image."
+  },
+  {
+    "id": "compose_state",
+    "courseId": "jetpack_compose",
+    "title": "Работа с состоянием",
+    "description": "MutableState, State, remember."
+  },
+  {
+    "id": "compose_navigation",
+    "courseId": "jetpack_compose",
+    "title": "Навигация в Compose",
+    "description": "Навигация между экранами с Compose Navigation."
+  },
+
+  {
+    "id": "mvi_intro",
+    "courseId": "architecture",
+    "title": "Введение в архитектуру",
+    "description": "Что такое архитектура, зачем она нужна."
+  },
+  {
+    "id": "mvi_pattern",
+    "courseId": "architecture",
+    "title": "Паттерн MVI",
+    "description": "Model-View-Intent — основы и принципы."
+  },
+  {
+    "id": "mvi_in_mvikotlin",
+    "courseId": "architecture",
+    "title": "MVIKotlin",
+    "description": "Практика: использование MVIKotlin для управления состоянием."
+  },
+  {
+    "id": "repository_pattern",
+    "courseId": "architecture",
+    "title": "Паттерн Repository",
+    "description": "Изоляция данных от UI, преимущества."
+  },
+
+  {
+    "id": "room_intro",
+    "courseId": "data_storage",
+    "title": "Введение в Room",
+    "description": "Для чего нужен Room и как он работает."
+  },
+  {
+    "id": "room_entities",
+    "courseId": "data_storage",
+    "title": "Создание сущностей Room",
+    "description": "Entity, Dao, Database — простейшая реализация."
+  },
+  {
+    "id": "datastore",
+    "courseId": "data_storage",
+    "title": "DataStore",
+    "description": "Хранение простых данных и настроек пользователя."
+  }
+]
