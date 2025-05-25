@@ -1,3 +1,65 @@
 <resources>
     <string name="app_name">Android Stepper</string>
+
+    <!-- Username -->
+    <string name="username_screen_title">Как к тебе обращаться?</string>
+    <string name="username_screen_instruction">Введи имя или никнейм — как тебе удобно.&#10;Например: Foxy, Ivan, robot42</string>
+    <string name="username_field_label">Имя или никнейм</string>
+    <string name="username_field_placeholder">Например, Alex</string>
+    <string name="username_error_default">От 2 до 24 символов, можно буквы, цифры, спецсимволы.</string>
+    <string name="username_screen_continue">Продолжить</string>
+    <string name="username_screen_nav_back">Назад</string>
+    <string name="username_screen_title_appbar">Android Stepper</string>
+
+    <!-- Level -->
+    <string name="level_screen_title_appbar">Выбор уровня</string>
+    <string name="level_screen_nav_back">Назад</string>
+    <string name="level_screen_title">Выбери свой уровень</string>
+    <string name="level_screen_instruction">Это поможет подобрать подходящий материал для обучения.</string>
+    <string name="level_beginner">Новичок</string>
+    <string name="level_intermediate">Продвинутый</string>
+    <string name="level_advanced">Эксперт</string>
+    <string name="level_screen_continue">Продолжить</string>
+    <string name="level_error_choose_level">Пожалуйста, выберите уровень</string>
+
+    <!-- Course -->
+    <string name="course_screen_title_appbar">Выбор курсов</string>
+    <string name="course_screen_nav_back">Назад</string>
+    <string name="course_screen_title">Выбери интересующие тебя курсы</string>
+    <string name="course_screen_instruction">Можно выбрать один или несколько курсов для изучения.</string>
+    <string name="course_android_basics">Основы Android</string>
+    <string name="course_compose">Jetpack Compose</string>
+    <string name="course_architecture">Архитектура приложений</string>
+    <string name="course_error_choose">Пожалуйста, выбери хотя бы один курс</string>
+    <string name="course_screen_continue">Продолжить</string>
+
+    <string name="home_screen_title">Главная</string>
+    <string name="home_greeting">Добро пожаловать, %1$s!</string>
+    <string name="home_progress_label">Общий прогресс</string>
+    <string name="home_courses_label">Твои курсы</string>
+    <string name="home_recent_label">Недавние действия</string>
+
+    <string name="course_list_screen_title">Курсы</string>
+    <string name="course_list_my_courses_label">Мои курсы</string>
+    <string name="course_list_all_courses_label">Все курсы</string>
+    <string name="course_list_topics_count">%1$d тем</string>
+    <string name="course_list_error">Ошибка загрузки курсов</string>
+
+    <!-- Course Detail Screen -->
+    <string name="course_detail_screen_title">О курсе</string>
+    <string name="course_detail_back">Назад</string>
+    <string name="course_detail_add">Добавить курс</string>
+    <string name="course_detail_topics_label">Темы курса</string>
+    <string name="course_detail_topics_empty">В этом курсе пока нет тем.</string>
+    <string name="course_detail_loading">Загрузка…</string>
+    <string name="course_detail_error">Ошибка загрузки данных</string>
+
+    <string name="course_topics_nav_back">Назад</string>
+    <string name="course_topics_progress_label">Прогресс: %1$d из %2$d тем завершено</string>
+    <string name="course_topics_completed">Завершено</string>
+
+    <string name="topic_screen_title">Материал по теме</string>
+    <string name="topic_nav_back">Назад</string>
+    <string name="topic_go_to_test">К тесту</string>
+
 </resources>

@@ -108,4 +108,8 @@ dependencies {
 //    Logging
     implementation(libs.leak.canary)
     implementation(libs.timber)
+
+//  Badoo Reaktive
+    implementation(libs.badoo.reaktive)
+    implementation(libs.badoo.reaktive.coroutines.interop)
 }
