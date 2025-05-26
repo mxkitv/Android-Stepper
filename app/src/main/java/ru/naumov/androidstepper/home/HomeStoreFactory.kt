@@ -7,11 +7,13 @@ import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
 import kotlinx.coroutines.launch
 import ru.naumov.androidstepper.data.CourseRepository
 import ru.naumov.androidstepper.data.SelectedCourseRepository
+import ru.naumov.androidstepper.data.UserRepository
 
 class HomeStoreFactory(
     private val storeFactory: StoreFactory,
     private val selectedCourseRepository: SelectedCourseRepository,
-    private val courseRepository: CourseRepository
+    private val courseRepository: CourseRepository,
+    private val userRepository: UserRepository
 ) {
     fun create(): HomeStore =
         object : HomeStore,
@@ -27,6 +29,8 @@ class HomeStoreFactory(
                         launch {
                             val ids = selectedCourseRepository.getSelectedCourses()
                             val courses = courseRepository.getCoursesByIds(ids)
+                            val username = userRepository.getUsername() ?: ""
+                            dispatch(HomeMessage.SetUsername(username))
                             dispatch(HomeMessage.SetCourses(courses))
                         }
                     }

@@ -83,7 +83,7 @@ class RootComponentImpl(
                 output
             )
         },
-        topicComponent = { ctx, topicId, output -> TopicComponentImpl(ctx, storeFactory, output) },
+        topicComponent = { ctx, topicId, output -> TopicComponentImpl(ctx, storeFactory, topicId, output) },
         testComponent = { ctx, topicId, output ->
             TestComponentImpl(
                 ctx,

@@ -17,6 +17,7 @@ import org.koin.core.component.inject
 import ru.naumov.androidstepper.asValue
 import ru.naumov.androidstepper.data.CourseRepository
 import ru.naumov.androidstepper.data.SelectedCourseRepository
+import ru.naumov.androidstepper.data.UserRepository
 import kotlin.getValue
 
 class HomeComponentImpl(
@@ -27,13 +28,15 @@ class HomeComponentImpl(
 
     private val courseRepository: CourseRepository by inject()
     private val selectedCourseRepository: SelectedCourseRepository by inject()
+    private val userRepository: UserRepository by inject()
 
     private val store =
         instanceKeeper.getStore {
             HomeStoreFactory(
                 storeFactory = storeFactory,
                 selectedCourseRepository = selectedCourseRepository,
-                courseRepository = courseRepository
+                courseRepository = courseRepository,
+                userRepository = userRepository
             ).create()
         }
 

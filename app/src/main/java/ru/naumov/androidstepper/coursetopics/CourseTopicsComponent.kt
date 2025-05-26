@@ -2,6 +2,7 @@
 package ru.naumov.androidstepper.coursetopics
 
 import com.arkivanov.decompose.value.Value
+import ru.naumov.androidstepper.data.database.TopicEntity
 
 interface CourseTopicsComponent {
     val model: Value<CourseTopicsModel>
@@ -12,7 +13,7 @@ interface CourseTopicsComponent {
     data class CourseTopicsModel(
         val courseId: String = "",
         val courseTitle: String = "",
-        val topics: List<CourseTopicItem> = emptyList(),
+        val topics: List<TopicEntity> = emptyList(),
         val completedCount: Int = 0,
         val totalCount: Int = 0,
         val isLoading: Boolean = false,

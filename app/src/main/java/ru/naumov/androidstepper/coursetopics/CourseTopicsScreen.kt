@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.naumov.androidstepper.R
+import ru.naumov.androidstepper.data.database.TopicEntity
 
 @Composable
 fun CourseTopicsScreen(component: CourseTopicsComponent) {
@@ -34,7 +35,7 @@ fun CourseTopicsScreen(component: CourseTopicsComponent) {
 @Composable
 fun CourseTopicsScreenContent(
     courseTitle: String,
-    topics: List<CourseTopicItem>,
+    topics: List<TopicEntity>,
     isLoading: Boolean,
     error: String?,
     onBackClicked: () -> Unit,
@@ -59,15 +60,15 @@ fun CourseTopicsScreenContent(
                 .padding(16.dp)
         ) {
             // Прогресс по курсу
-            val completed = topics.count { it.isCompleted }
+//            val completed = topics.count { it.isCompleted }
             val all = topics.size
-            if (topics.isNotEmpty()) {
-                Text(
-                    text = stringResource(R.string.course_topics_progress_label, completed, all),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-            }
+//            if (topics.isNotEmpty()) {
+//                Text(
+//                    text = stringResource(R.string.course_topics_progress_label, completed, all),
+//                    style = MaterialTheme.typography.titleMedium,
+//                    modifier = Modifier.padding(bottom = 16.dp)
+//                )
+//            }
 
             // Ошибка
             if (error != null) {
@@ -109,23 +110,23 @@ fun CourseTopicsScreenContent(
                                     text = topic.title,
                                     style = MaterialTheme.typography.bodyLarge,
                                 )
-                                if (topic.isCompleted) {
-                                    Text(
-                                        text = stringResource(R.string.course_topics_completed),
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.primary,
-                                    )
-                                }
+//                                if (topic.isCompleted) {
+//                                    Text(
+//                                        text = stringResource(R.string.course_topics_completed),
+//                                        style = MaterialTheme.typography.bodySmall,
+//                                        color = MaterialTheme.colorScheme.primary,
+//                                    )
+//                                }
                             }
-                            if (topic.progress != null) {
-                                Spacer(Modifier.width(12.dp))
-                                LinearProgressIndicator(
-                                    progress = topic.progress.coerceIn(0f, 1f),
-                                    modifier = Modifier
-                                        .width(64.dp)
-                                        .height(8.dp)
-                                )
-                            }
+//                            if (topic.progress != null) {
+//                                Spacer(Modifier.width(12.dp))
+//                                LinearProgressIndicator(
+//                                    progress = topic.progress.coerceIn(0f, 1f),
+//                                    modifier = Modifier
+//                                        .width(64.dp)
+//                                        .height(8.dp)
+//                                )
+//                            }
                         }
                     }
                 }
@@ -141,9 +142,9 @@ private fun CourseTopicsScreenContentPreview() {
     CourseTopicsScreenContent(
         courseTitle = "Jetpack Compose",
         topics = listOf(
-            CourseTopicItem(id = "t1", title = "Введение", isCompleted = true, progress = 1f),
-            CourseTopicItem(id = "t2", title = "Layouts", isCompleted = false, progress = 0.3f),
-            CourseTopicItem(id = "t3", title = "Navigation", isCompleted = false, progress = null),
+            TopicEntity(id = "t1", courseId = "", title = "Введение", description = ""),
+            TopicEntity(id = "t2", title = "Layouts", courseId = "", description = ""),
+            TopicEntity(id = "t3", title = "Navigation", courseId = "", description = ""),
         ),
         isLoading = false,
         error = null,

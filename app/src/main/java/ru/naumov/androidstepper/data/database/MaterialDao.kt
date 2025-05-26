@@ -10,6 +10,9 @@ interface MaterialDao {
     @Query("SELECT * FROM materials WHERE topicId = :topicId")
     suspend fun getMaterialsForTopic(topicId: String): List<MaterialEntity>
 
+    @Query("SELECT * FROM materials WHERE topicId = :topicId LIMIT 1")
+    suspend fun getMaterialByTopicId(topicId: String): MaterialEntity?
+
     @Query("SELECT * FROM materials WHERE id = :id")
     suspend fun getMaterialById(id: String): MaterialEntity?
 

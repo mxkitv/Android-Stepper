@@ -2,6 +2,9 @@ package ru.naumov.androidstepper.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -20,7 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.naumov.androidstepper.R
 import ru.naumov.androidstepper.data.database.CourseEntity
@@ -112,7 +114,7 @@ fun HomeScreenContent(
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
             )
-            CoursesRow(
+            CoursesGrid(
                 courses = courses,
                 onCourseClicked = onCourseClicked
             )
@@ -149,43 +151,41 @@ fun HomeScreenContent(
 }
 
 @Composable
-private fun CoursesRow(
+private fun CoursesGrid(
     courses: List<CourseEntity>,
     onCourseClicked: (String) -> Unit
 ) {
-    Row(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 96.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+            .heightIn(min = 96.dp, max = 400.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        userScrollEnabled = false // отключить скроллинг, чтобы Grid расширялся по мере наполнения
     ) {
-        courses.forEach { course ->
+        items(courses) { course ->
             Card(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .height(120.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .clickable { onCourseClicked(course.id) },
                 elevation = CardDefaults.cardElevation(4.dp)
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(12.dp)
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp)
                 ) {
-//                    if (course.iconRes != null) {
-//                        Icon(
-//                            painter = painterResource(id = course.iconRes),
-//                            contentDescription = course.title,
-//                            tint = MaterialTheme.colorScheme.primary,
-//                            modifier = Modifier.size(32.dp)
-//                        )
-//                    } else {
-                        Icon(
-                            Icons.Default.PlayArrow,
-                            contentDescription = course.title,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(32.dp)
-                        )
-//                    }
+                    Icon(
+                        Icons.Default.PlayArrow,
+                        contentDescription = course.title,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(32.dp)
+                    )
                     Spacer(Modifier.height(8.dp))
                     Text(
                         text = course.title,
@@ -194,14 +194,6 @@ private fun CoursesRow(
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
-                    Spacer(Modifier.height(8.dp))
-//                    LinearProgressIndicator(
-//                        progress = course.progress.coerceIn(0f, 1f),
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(6.dp)
-//                            .clip(CircleShape)
-//                    )
                 }
             }
         }
@@ -275,6 +267,8 @@ private fun HomeScreenContentPreview() {
         courses = listOf(
             CourseEntity(id = "android", title = "Android", description = ""),
             CourseEntity(id = "compose", title = "Compose", description = ""),
+            CourseEntity(id = "kotlin", title = "Kotlin", description = ""),
+            CourseEntity(id = "mvi", title = "MVI", description = "")
         ),
         progress = 0.6f,
         recentEvents = listOf(

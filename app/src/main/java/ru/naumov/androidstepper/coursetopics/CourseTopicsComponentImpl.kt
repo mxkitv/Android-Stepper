@@ -13,19 +13,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import ru.naumov.androidstepper.asValue
 import ru.naumov.androidstepper.coursetopics.CourseTopicsComponent.Output.*
+import ru.naumov.androidstepper.data.TopicRepository
 
 class CourseTopicsComponentImpl(
     componentContext: ComponentContext,
     storeFactory: StoreFactory,
     private val courseId: String,
     private val output: Consumer<CourseTopicsComponent.Output>
-) : CourseTopicsComponent, ComponentContext by componentContext {
+) : CourseTopicsComponent, ComponentContext by componentContext, KoinComponent {
+
+    private val topicRepository: TopicRepository by inject()
 
     private val store =
         instanceKeeper.getStore {
-            CourseTopicsStoreFactory(storeFactory).create(courseId)
+            CourseTopicsStoreFactory(
+                storeFactory = storeFactory,
+                topicRepository = topicRepository
+            ).create(courseId)
         }
 
     override val model: Value<CourseTopicsComponent.CourseTopicsModel> = store.asValue().map(stateToModel)

@@ -2,17 +2,33 @@ package ru.naumov.androidstepper.topic
 
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
+import com.arkivanov.mvikotlin.extensions.coroutines.coroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
+import kotlinx.coroutines.launch
+import ru.naumov.androidstepper.data.MaterialRepository
 
 class TopicStoreFactory(
-    private val storeFactory: StoreFactory
+    private val storeFactory: StoreFactory,
+    private val materialRepository: MaterialRepository,
+    private val topicId: String
 ) {
     fun create(): TopicStore =
         object : TopicStore,
-            Store<TopicIntent, TopicState, TopicLabel> by storeFactory.create<TopicIntent, Nothing, TopicMessage, TopicState, TopicLabel>(
+            Store<TopicIntent, TopicState, TopicLabel> by storeFactory.create<TopicIntent, TopicAction, TopicMessage, TopicState, TopicLabel>(
                 name = "TopicStore",
                 initialState = TopicState(),
+                bootstrapper = coroutineBootstrapper {
+                    dispatch(TopicAction.LoadMaterial)
+                },
                 executorFactory = coroutineExecutorFactory {
+                    onAction<TopicAction.LoadMaterial> { action ->
+                        dispatch(TopicMessage.SetLoading(true))
+                        launch {
+                            val material = materialRepository.getMaterialByTopic(topicId)
+                            dispatch(TopicMessage.SetContent(material?.content ?: ""))
+                            dispatch(TopicMessage.SetLoading(false))
+                        }
+                    }
                     onIntent<TopicIntent.BackClicked> {
                         publish(TopicLabel.NavigateBack)
                     }

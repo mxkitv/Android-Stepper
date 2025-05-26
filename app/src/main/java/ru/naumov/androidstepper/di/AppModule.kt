@@ -10,8 +10,12 @@ import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import ru.naumov.androidstepper.coursetopics.CourseTopicsComponent
+import ru.naumov.androidstepper.coursetopics.CourseTopicsComponentImpl
 import ru.naumov.androidstepper.data.CourseRepository
+import ru.naumov.androidstepper.data.MaterialRepository
 import ru.naumov.androidstepper.data.SelectedCourseRepository
+import ru.naumov.androidstepper.data.TopicRepository
 import ru.naumov.androidstepper.data.database.AppDatabase
 import ru.naumov.androidstepper.onboarding.course.CourseComponent
 import ru.naumov.androidstepper.onboarding.course.CourseComponentImpl
@@ -19,6 +23,8 @@ import ru.naumov.androidstepper.onboarding.level.LevelComponent
 import ru.naumov.androidstepper.onboarding.level.LevelComponentImpl
 import ru.naumov.androidstepper.onboarding.level.LevelStoreFactory
 import ru.naumov.androidstepper.onboarding.username.UsernameComponent
+import ru.naumov.androidstepper.topic.TopicComponent
+import ru.naumov.androidstepper.topic.TopicComponentImpl
 
 val appModule = module {
     single { UserRepository(androidContext()) }
@@ -71,4 +77,23 @@ val appModule = module {
         )
     }
 
+    single { TopicRepository(get()) }
+    factory { (output: (CourseTopicsComponent.Output) -> Unit, context: ComponentContext, courseId: String) ->
+        CourseTopicsComponentImpl(
+            componentContext = context,
+            storeFactory = get(),
+            courseId = courseId,
+            output = output
+        )
+    }
+
+    single { MaterialRepository(get()) }
+    factory { (output: (TopicComponent.Output) -> Unit, context: ComponentContext, topicId: String) ->
+        TopicComponentImpl(
+            componentContext = context,
+            storeFactory = get(),
+            topicId = topicId,
+            output = output
+        )
+    }
 }
