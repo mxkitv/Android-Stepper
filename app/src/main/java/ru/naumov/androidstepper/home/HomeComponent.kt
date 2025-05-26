@@ -1,6 +1,7 @@
 package ru.naumov.androidstepper.home
 
 import com.arkivanov.decompose.value.Value
+import ru.naumov.androidstepper.data.database.CourseEntity
 
 interface HomeComponent {
     val model: Value<HomeModel>
@@ -10,7 +11,7 @@ interface HomeComponent {
 
     data class HomeModel(
         val username: String = "",
-        val courses: List<HomeCourse> = emptyList(),
+        val courses: List<CourseEntity> = emptyList(),
         val recentEvents: List<RecentEvent> = emptyList(),
         val progress: Float = 0f,
         val isLoading: Boolean = false,

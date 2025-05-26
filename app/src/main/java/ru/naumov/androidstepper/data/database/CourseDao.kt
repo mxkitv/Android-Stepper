@@ -15,4 +15,7 @@ interface CourseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(courses: List<CourseEntity>)
+
+    @Query("SELECT * FROM courses WHERE id IN (:ids)")
+    suspend fun getCoursesByIds(ids: List<String>): List<CourseEntity>
 }

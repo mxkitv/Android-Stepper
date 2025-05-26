@@ -17,10 +17,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.naumov.androidstepper.R
+import ru.naumov.androidstepper.data.database.CourseEntity
 
 @Composable
 fun HomeScreen(component: HomeComponent) {
@@ -41,7 +44,7 @@ fun HomeScreen(component: HomeComponent) {
 @Composable
 fun HomeScreenContent(
     username: String,
-    courses: List<HomeCourse>,
+    courses: List<CourseEntity>,
     progress: Float,
     recentEvents: List<RecentEvent>,
     isLoading: Boolean,
@@ -147,7 +150,7 @@ fun HomeScreenContent(
 
 @Composable
 private fun CoursesRow(
-    courses: List<HomeCourse>,
+    courses: List<CourseEntity>,
     onCourseClicked: (String) -> Unit
 ) {
     Row(
@@ -168,35 +171,37 @@ private fun CoursesRow(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(12.dp)
                 ) {
-                    if (course.iconRes != null) {
-                        Icon(
-                            painter = painterResource(id = course.iconRes),
-                            contentDescription = course.title,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    } else {
+//                    if (course.iconRes != null) {
+//                        Icon(
+//                            painter = painterResource(id = course.iconRes),
+//                            contentDescription = course.title,
+//                            tint = MaterialTheme.colorScheme.primary,
+//                            modifier = Modifier.size(32.dp)
+//                        )
+//                    } else {
                         Icon(
                             Icons.Default.PlayArrow,
                             contentDescription = course.title,
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(32.dp)
                         )
-                    }
+//                    }
                     Spacer(Modifier.height(8.dp))
                     Text(
                         text = course.title,
                         style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
                     )
                     Spacer(Modifier.height(8.dp))
-                    LinearProgressIndicator(
-                        progress = course.progress.coerceIn(0f, 1f),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(6.dp)
-                            .clip(CircleShape)
-                    )
+//                    LinearProgressIndicator(
+//                        progress = course.progress.coerceIn(0f, 1f),
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(6.dp)
+//                            .clip(CircleShape)
+//                    )
                 }
             }
         }
@@ -268,8 +273,8 @@ private fun HomeScreenContentPreview() {
     HomeScreenContent(
         username = "Алексей",
         courses = listOf(
-            HomeCourse(id = "android", title = "Android", progress = 0.4f, iconRes = null),
-            HomeCourse(id = "compose", title = "Compose", progress = 0.9f, iconRes = null),
+            CourseEntity(id = "android", title = "Android", description = ""),
+            CourseEntity(id = "compose", title = "Compose", description = ""),
         ),
         progress = 0.6f,
         recentEvents = listOf(
