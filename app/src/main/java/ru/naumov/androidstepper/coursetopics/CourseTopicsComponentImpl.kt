@@ -17,6 +17,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.naumov.androidstepper.asValue
 import ru.naumov.androidstepper.coursetopics.CourseTopicsComponent.Output.*
+import ru.naumov.androidstepper.data.CourseRepository
 import ru.naumov.androidstepper.data.TopicRepository
 
 class CourseTopicsComponentImpl(
@@ -27,16 +28,19 @@ class CourseTopicsComponentImpl(
 ) : CourseTopicsComponent, ComponentContext by componentContext, KoinComponent {
 
     private val topicRepository: TopicRepository by inject()
+    private val courseRepository: CourseRepository by inject()
 
     private val store =
         instanceKeeper.getStore {
             CourseTopicsStoreFactory(
                 storeFactory = storeFactory,
-                topicRepository = topicRepository
+                topicRepository = topicRepository,
+                courseRepository = courseRepository
             ).create(courseId)
         }
 
-    override val model: Value<CourseTopicsComponent.CourseTopicsModel> = store.asValue().map(stateToModel)
+    override val model: Value<CourseTopicsComponent.CourseTopicsModel> =
+        store.asValue().map(stateToModel)
 
     private val scope = CoroutineScope(Dispatchers.Main + Job())
 
@@ -47,6 +51,7 @@ class CourseTopicsComponentImpl(
                     is CourseTopicsLabel.OpenTopic -> output.onNext(
                         OpenTopic(label.topicId)
                     )
+
                     is CourseTopicsLabel.NavigateBack -> output.onNext(Back)
 
                     is CourseTopicsLabel.ShowMessage -> TODO()

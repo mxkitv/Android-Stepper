@@ -158,11 +158,9 @@ private fun CoursesGrid(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 96.dp, max = 400.dp),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        userScrollEnabled = false // отключить скроллинг, чтобы Grid расширялся по мере наполнения
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(courses) { course ->
             Card(

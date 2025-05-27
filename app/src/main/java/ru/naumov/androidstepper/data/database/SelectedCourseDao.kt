@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Delete
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SelectedCourseDao {
@@ -15,7 +16,7 @@ interface SelectedCourseDao {
     suspend fun delete(course: SelectedCourseEntity)
 
     @Query("SELECT * FROM selected_courses")
-    suspend fun getAll(): List<SelectedCourseEntity>
+    fun getAll(): Flow<List<SelectedCourseEntity>>
 
     @Query("SELECT * FROM selected_courses WHERE courseId = :courseId LIMIT 1")
     suspend fun getCourse(courseId: String): SelectedCourseEntity?

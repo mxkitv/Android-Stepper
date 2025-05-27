@@ -12,19 +12,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import ru.naumov.androidstepper.asValue
+import ru.naumov.androidstepper.data.TestRepository
 
 class TestComponentImpl(
     componentContext: ComponentContext,
     storeFactory: StoreFactory,
+    private val topicId: String,
     private val output: Consumer<TestComponent.Output>
-) : TestComponent, ComponentContext by componentContext {
+) : TestComponent, ComponentContext by componentContext, KoinComponent {
+
+    private val testRepository: TestRepository by inject()
 
     private val store =
         instanceKeeper.getStore {
             TestStoreFactory(
-                storeFactory = storeFactory
-            ).create()
+                storeFactory = storeFactory,
+                testRepository = testRepository
+            ).create(topicId = topicId)
         }
 
     override val model: Value<TestComponent.TestModel> = store.asValue().map(stateToModel)
@@ -37,9 +44,7 @@ class TestComponentImpl(
                 when (label) {
                     TestLabel.NavigateBack -> output.onNext(TestComponent.Output.NavigateBack)
                     TestLabel.ShowResult -> output.onNext(TestComponent.Output.ShowResult)
-                    is TestLabel.ShowMessage -> {
-                        // В будущем: показывать Snackbar, Toast и т.д.
-                    }
+                    is TestLabel.ShowMessage -> { /* В будущем: показывать Snackbar, Toast и т.д. */ }
                 }
             }
             .launchIn(scope)
@@ -59,5 +64,9 @@ class TestComponentImpl(
 
     override fun onBack() {
         store.accept(TestIntent.BackClicked)
+    }
+
+    override fun onContinue() {
+        output.onNext(TestComponent.Output.Continue)
     }
 }

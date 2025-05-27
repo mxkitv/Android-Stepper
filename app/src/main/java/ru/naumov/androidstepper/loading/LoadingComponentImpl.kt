@@ -23,18 +23,17 @@ class LoadingComponentImpl(
     init {
         // Сразу после создания — запускаем корутину
         CoroutineScope(Dispatchers.Main).launch {
-            val username = userRepository.getUsername()
-            val userLevel = userRepository.getUserLevel()
-            val selectedCourses = selectedCourseRepository.getSelectedCourses()
-
-            val nextScreen = when {
-                username.isNullOrBlank() -> RootComponentImpl.Configuration.Username
-                userLevel.isNullOrBlank() -> RootComponentImpl.Configuration.Level
-                selectedCourses.isEmpty() -> RootComponentImpl.Configuration.Course
-                else -> RootComponentImpl.Configuration.Home
+            selectedCourseRepository.getSelectedCourses().collect { selectedCourses ->
+                val username = userRepository.getUsername()
+                val userLevel = userRepository.getUserLevel()
+                val nextScreen = when {
+                    username.isNullOrBlank() -> RootComponentImpl.Configuration.Username
+                    userLevel.isNullOrBlank() -> RootComponentImpl.Configuration.Level
+                    selectedCourses.isEmpty() -> RootComponentImpl.Configuration.Course
+                    else -> RootComponentImpl.Configuration.MainTabs
+                }
+                output.onNext(LoadingComponent.LoadingOutput.onLoaded(nextScreen))
             }
-
-            output.onNext(LoadingComponent.LoadingOutput.onLoaded(nextScreen))
         }
     }
 }

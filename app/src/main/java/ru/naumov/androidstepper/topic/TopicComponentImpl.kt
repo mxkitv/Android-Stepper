@@ -45,7 +45,7 @@ class TopicComponentImpl(
             .onEach { label ->
                 when (label) {
                     TopicLabel.NavigateBack -> output.onNext(TopicComponent.Output.NavigateBack)
-                    TopicLabel.NavigateToTest -> output.onNext(TopicComponent.Output.NavigateToTest)
+                    TopicLabel.NavigateToTest -> output.onNext(TopicComponent.Output.NavigateToTest(topicId))
                     is TopicLabel.ShowMessage -> { /* Можно показать Snackbar или Toast */ }
                 }
             }

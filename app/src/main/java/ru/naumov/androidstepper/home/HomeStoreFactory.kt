@@ -4,6 +4,7 @@ import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import ru.naumov.androidstepper.data.CourseRepository
 import ru.naumov.androidstepper.data.SelectedCourseRepository
@@ -27,11 +28,15 @@ class HomeStoreFactory(
                     onAction<HomeAction.LoadMyCourses> { action ->
                         dispatch(HomeMessage.SetLoading(true))
                         launch {
-                            val ids = selectedCourseRepository.getSelectedCourses()
-                            val courses = courseRepository.getCoursesByIds(ids)
                             val username = userRepository.getUsername() ?: ""
                             dispatch(HomeMessage.SetUsername(username))
-                            dispatch(HomeMessage.SetCourses(courses))
+                            selectedCourseRepository.getSelectedCourses()
+                                .flatMapLatest { ids ->
+                                    courseRepository.getCoursesByIds(ids)
+                                }
+                                .collect { courses ->
+                                    dispatch(HomeMessage.SetCourses(courses))
+                                }
                         }
                     }
                     onIntent<HomeIntent.CourseClicked> { intent ->

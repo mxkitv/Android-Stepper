@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.popWhile
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
@@ -72,6 +73,7 @@ class RootComponentImpl(
             CourseDetailComponentImpl(
                 ctx,
                 storeFactory,
+                courseId,
                 output
             )
         },
@@ -88,6 +90,7 @@ class RootComponentImpl(
             TestComponentImpl(
                 ctx,
                 storeFactory,
+                topicId,
                 output
             )
         }, // <-- добавлено
@@ -111,6 +114,11 @@ class RootComponentImpl(
         componentContext: ComponentContext
     ): RootComponent.Child =
         when (configuration) {
+            is Configuration.MainTabs -> MainTabs(
+                homeComponent = homeComponent(componentContext, Consumer(::onHomeOutput)),
+                courseListComponent = courseListComponent(componentContext, Consumer(::onCourseListOutput))
+            )
+
             is Configuration.Username -> Username(
                 usernameComponent(componentContext, Consumer(::onUsernameOutput))
             )
@@ -121,14 +129,6 @@ class RootComponentImpl(
 
             is Configuration.Course -> Course(
                 courseComponent(componentContext, Consumer(::onCourseOutput))
-            )
-
-            is Configuration.Home -> Home(
-                homeComponent(componentContext, Consumer(::onHomeOutput))
-            )
-
-            is Configuration.CourseList -> CourseList(
-                courseListComponent(componentContext, Consumer(::onCourseListOutput))
             )
 
             is Configuration.CourseDetail -> CourseDetail(
@@ -183,7 +183,7 @@ class RootComponentImpl(
     // Onboarding course selection navigation
     private fun onCourseOutput(output: CourseOutput) {
         when (output) {
-            CourseOutput.NavigateNext -> navigation.push(Configuration.Home)
+            CourseOutput.NavigateNext -> navigation.push(Configuration.MainTabs)
             CourseOutput.NavigateBack -> navigation.pop()
         }
     }
@@ -215,7 +215,10 @@ class RootComponentImpl(
 
     // Course detail screen navigation
     private fun onCourseDetailOutput(output: CourseDetailOutput) {
-        // Например, возвращаемся назад после добавления курса или Back
+        when (output) {
+            CourseDetailOutput.Back -> navigation.pop()
+            CourseDetailOutput.CourseAdded -> navigation.pop()
+        }
     }
 
     // Course topics screen navigation
@@ -232,10 +235,10 @@ class RootComponentImpl(
     private fun onTopicOutput(output: TopicOutput) {
         when (output) {
             TopicOutput.NavigateBack -> navigation.pop()
-            TopicOutput.NavigateToTest -> {
+            is TopicOutput.NavigateToTest -> {
                 navigation.push(
                     Configuration.Test(/* topicId должен быть взят из текущей конфигурации Topic */
-                        lastOpenedTopicId ?: ""
+                        output.topicId
                     )
                 )
             }
@@ -248,6 +251,11 @@ class RootComponentImpl(
             TestOutput.NavigateBack -> navigation.pop()
             TestOutput.ShowResult -> {
                 // Можно показать что-то, например диалог
+            }
+
+            TestOutput.Continue -> {
+                navigation.pop()
+                navigation.pop()
             }
         }
     }
@@ -284,10 +292,7 @@ class RootComponentImpl(
         object Level : Configuration
         @Serializable
         object Course : Configuration
-        @Serializable
-        object Home : Configuration
-        @Serializable
-        object CourseList : Configuration
+
         @Serializable
         data class CourseDetail(val courseId: String) : Configuration
         @Serializable
@@ -298,5 +303,7 @@ class RootComponentImpl(
         data class Test(val topicId: String) : Configuration    // <-- добавлено
         @Serializable
         object Loading : Configuration
+        @Serializable
+        object MainTabs : Configuration
     }
 }

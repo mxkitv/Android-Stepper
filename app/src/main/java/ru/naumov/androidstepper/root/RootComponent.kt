@@ -20,8 +20,10 @@ interface RootComponent {
         data class Username(val component: UsernameComponent) : Child
         data class Level(val component: LevelComponent) : Child
         data class Course(val component: CourseComponent) : Child
-        data class Home(val component: HomeComponent) : Child
-        data class CourseList(val component: CourseListComponent) : Child
+        data class MainTabs(
+            val homeComponent: HomeComponent,
+            val courseListComponent: CourseListComponent
+        ) : Child
         data class CourseDetail(val component: CourseDetailComponent) : Child
         data class CourseTopics(val component: CourseTopicsComponent) : Child
         data class Topic(val component: TopicComponent) : Child

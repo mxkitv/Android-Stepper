@@ -1,6 +1,7 @@
 package ru.naumov.androidstepper.test
 
 import com.arkivanov.decompose.value.Value
+import ru.naumov.androidstepper.data.database.Question
 
 interface TestComponent {
     val model: Value<TestModel>
@@ -9,6 +10,7 @@ interface TestComponent {
     fun onSubmit()
     fun onRetry()
     fun onBack()
+    fun onContinue()
 
     data class TestModel(
         val questions: List<Question> = emptyList(),
@@ -22,5 +24,6 @@ interface TestComponent {
     sealed interface Output {
         object NavigateBack : Output
         object ShowResult : Output
+        object Continue : Output
     }
 }

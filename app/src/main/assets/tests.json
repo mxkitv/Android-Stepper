@@ -1,0 +1,252 @@
+[
+  {
+    "id": "test_android_intro",
+    "title": "Тест по истории и особенностям Android",
+    "topicId": "android_intro",
+    "materialId": "mat_android_intro",
+    "questions": [
+      {
+        "id": "q1_android_intro",
+        "text": "Какое ядро лежит в основе операционной системы Android?",
+        "answers": ["Linux", "Windows", "Darwin", "FreeBSD"],
+        "correctAnswer": 0
+      },
+      {
+        "id": "q2_android_intro",
+        "text": "В каком году вышла первая коммерческая версия Android?",
+        "answers": ["2005", "2008", "2010", "2012"],
+        "correctAnswer": 1
+      },
+      {
+        "id": "q3_android_intro",
+        "text": "Ключевая особенность Android?",
+        "answers": [
+          "Закрытая система",
+          "Открытость и гибкость",
+          "Разрабатывается Apple",
+          "Не поддерживает сторонние устройства"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "id": "q4_android_intro",
+        "text": "Сколько примерно процентов рынка мобильных устройств занимает Android?",
+        "answers": ["20%", "50%", "70%", "90%"],
+        "correctAnswer": 2
+      },
+      {
+        "id": "q5_android_intro",
+        "text": "Какая компания приобрела Android Inc. в 2005 году?",
+        "answers": ["Microsoft", "Samsung", "Google", "IBM"],
+        "correctAnswer": 2
+      }
+    ]
+  },
+  {
+    "id": "test_android_studio",
+    "title": "Тест по установке и настройке Android Studio",
+    "topicId": "android_studio",
+    "materialId": "mat_android_studio",
+    "questions": [
+      {
+        "id": "q1_android_studio",
+        "text": "На какой платформе основана Android Studio?",
+        "answers": ["Eclipse", "NetBeans", "IntelliJ IDEA", "Visual Studio"],
+        "correctAnswer": 2
+      },
+      {
+        "id": "q2_android_studio",
+        "text": "Что обязательно выбрать при установке Android Studio?",
+        "answers": ["Android SDK", "MS Office", "Node.js", "Docker"],
+        "correctAnswer": 0
+      },
+      {
+        "id": "q3_android_studio",
+        "text": "Для чего нужен AVD Manager?",
+        "answers": [
+          "Управление библиотеками",
+          "Создание эмуляторов устройств",
+          "Обновление приложения",
+          "Настройка цветов интерфейса"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "id": "q4_android_studio",
+        "text": "Какой файл отвечает за настройки сборки проекта?",
+        "answers": ["AndroidManifest.xml", "build.gradle", "settings.xml", "app.json"],
+        "correctAnswer": 1
+      },
+      {
+        "id": "q5_android_studio",
+        "text": "Как можно запускать и тестировать приложение?",
+        "answers": [
+          "Только на реальном устройстве",
+          "Только через облако",
+          "На эмуляторе или реальном устройстве",
+          "Запуск невозможен до публикации"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  },
+  {
+    "id": "test_project_structure",
+    "title": "Тест по структуре проекта",
+    "topicId": "project_structure",
+    "materialId": "mat_project_structure",
+    "questions": [
+      {
+        "id": "q1_project_structure",
+        "text": "В какой папке находятся исходные файлы приложения?",
+        "answers": ["gradle/", "build/", "app/src/main/java или kotlin", "res/"],
+        "correctAnswer": 2
+      },
+      {
+        "id": "q2_project_structure",
+        "text": "Где описываются компоненты и разрешения приложения?",
+        "answers": ["build.gradle", "AndroidManifest.xml", "settings.gradle", "README.md"],
+        "correctAnswer": 1
+      },
+      {
+        "id": "q3_project_structure",
+        "text": "Для чего нужен файл build.gradle?",
+        "answers": [
+          "Управляет зависимостями и сборкой",
+          "Содержит ресурсы приложения",
+          "Запускает эмулятор",
+          "Хранит пользовательские данные"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "id": "q4_project_structure",
+        "text": "Что находится в папке res/?",
+        "answers": [
+          "Код на Kotlin",
+          "Ресурсы: layout, drawable, values",
+          "Данные пользователя",
+          "Архивные файлы"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "id": "q5_project_structure",
+        "text": "Какая структура проекта облегчает поддержку и развитие?",
+        "answers": [
+          "Смешивание кода и ресурсов",
+          "Ясное разделение кода, ресурсов и конфигурации",
+          "Один файл для всего",
+          "Отсутствие модулей"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "test_activity_lifecycle",
+    "title": "Тест по жизненному циклу Activity",
+    "topicId": "activity_lifecycle",
+    "materialId": "mat_activity_lifecycle",
+    "questions": [
+      {
+        "id": "q1_activity_lifecycle",
+        "text": "Что такое Activity в Android?",
+        "answers": [
+          "Сервис для фоновых задач",
+          "Фрагмент интерфейса",
+          "Экран приложения или компонент UI",
+          "Модуль сборки"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "id": "q2_activity_lifecycle",
+        "text": "В каком методе происходит инициализация интерфейса?",
+        "answers": ["onCreate", "onPause", "onResume", "onStop"],
+        "correctAnswer": 0
+      },
+      {
+        "id": "q3_activity_lifecycle",
+        "text": "Что происходит в методе onDestroy?",
+        "answers": [
+          "Экран становится видимым",
+          "Экран удаляется, происходит финальная очистка",
+          "Сохраняются временные данные",
+          "Инициализируются компоненты"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "id": "q4_activity_lifecycle",
+        "text": "Для чего используют onSaveInstanceState?",
+        "answers": [
+          "Для отрисовки UI",
+          "Для сохранения состояния при изменениях",
+          "Для освобождения памяти",
+          "Для инициализации сервиса"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "id": "q5_activity_lifecycle",
+        "text": "Какой метод вызывается, когда Activity становится видимой?",
+        "answers": ["onResume", "onPause", "onStart", "onDestroy"],
+        "correctAnswer": 2
+      }
+    ]
+  },
+  {
+    "id": "test_ui_basics",
+    "title": "Тест по базовым элементам интерфейса",
+    "topicId": "ui_basics",
+    "materialId": "mat_ui_basics",
+    "questions": [
+      {
+        "id": "q1_ui_basics",
+        "text": "Какой компонент используется для ввода текста пользователем?",
+        "answers": ["TextView", "Button", "EditText", "ImageView"],
+        "correctAnswer": 2
+      },
+      {
+        "id": "q2_ui_basics",
+        "text": "В каком виде можно описывать UI в Android?",
+        "answers": [
+          "Только XML-разметкой",
+          "Только в настройках Gradle",
+          "В XML или через Jetpack Compose",
+          "Через командную строку"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "id": "q3_ui_basics",
+        "text": "Какой контейнер в Compose используется для вертикального расположения элементов?",
+        "answers": ["Row", "Column", "Box", "LinearLayout"],
+        "correctAnswer": 1
+      },
+      {
+        "id": "q4_ui_basics",
+        "text": "Что такое LinearLayout?",
+        "answers": [
+          "Контейнер для расположения элементов в одну линию",
+          "Список данных",
+          "Иконка приложения",
+          "Цветовая схема"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "id": "q5_ui_basics",
+        "text": "Что позволяет сделать грамотное использование базовых элементов интерфейса?",
+        "answers": [
+          "Сделать приложение более тяжелым",
+          "Упростить поддержку и сделать UI удобнее",
+          "Увеличить количество багов",
+          "Сделать приложение платным"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+]

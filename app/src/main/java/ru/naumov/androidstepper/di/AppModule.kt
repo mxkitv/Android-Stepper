@@ -10,11 +10,13 @@ import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.badoo.reaktive.base.Consumer
 import ru.naumov.androidstepper.coursetopics.CourseTopicsComponent
 import ru.naumov.androidstepper.coursetopics.CourseTopicsComponentImpl
 import ru.naumov.androidstepper.data.CourseRepository
 import ru.naumov.androidstepper.data.MaterialRepository
 import ru.naumov.androidstepper.data.SelectedCourseRepository
+import ru.naumov.androidstepper.data.TestRepository
 import ru.naumov.androidstepper.data.TopicRepository
 import ru.naumov.androidstepper.data.database.AppDatabase
 import ru.naumov.androidstepper.onboarding.course.CourseComponent
@@ -23,6 +25,8 @@ import ru.naumov.androidstepper.onboarding.level.LevelComponent
 import ru.naumov.androidstepper.onboarding.level.LevelComponentImpl
 import ru.naumov.androidstepper.onboarding.level.LevelStoreFactory
 import ru.naumov.androidstepper.onboarding.username.UsernameComponent
+import ru.naumov.androidstepper.test.TestComponent
+import ru.naumov.androidstepper.test.TestComponentImpl
 import ru.naumov.androidstepper.topic.TopicComponent
 import ru.naumov.androidstepper.topic.TopicComponentImpl
 
@@ -61,6 +65,7 @@ val appModule = module {
     single { get<AppDatabase>().courseDao() }
     single { get<AppDatabase>().topicDao() }
     single { get<AppDatabase>().materialDao() }
+    single { get<AppDatabase>().testDao() }
 
 
     factory { SelectedCourseRepository(get()) }
@@ -96,4 +101,15 @@ val appModule = module {
             output = output
         )
     }
+
+    factory { TestRepository(get()) }
+    factory { (output: (TestComponent.Output) -> Unit, context: ComponentContext, topicId: String) ->
+        TestComponentImpl(
+            componentContext = context,
+            storeFactory = get(),
+            topicId = topicId,
+            output = output
+        )
+    }
+
 }

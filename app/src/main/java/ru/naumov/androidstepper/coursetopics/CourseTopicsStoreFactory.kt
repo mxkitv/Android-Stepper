@@ -6,11 +6,13 @@ import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
 import kotlinx.coroutines.launch
+import ru.naumov.androidstepper.data.CourseRepository
 import ru.naumov.androidstepper.data.TopicRepository
 
 class CourseTopicsStoreFactory(
     private val storeFactory: StoreFactory,
     private val topicRepository: TopicRepository,
+    private val courseRepository: CourseRepository
 ) {
     fun create(courseId: String): CourseTopicsStore =
         object : CourseTopicsStore,
@@ -25,8 +27,11 @@ class CourseTopicsStoreFactory(
                         dispatch(CourseTopicsMessage.SetLoading(true))
                         launch {
                             val topics = topicRepository.getTopicsByCourse(courseId)
-                            dispatch(CourseTopicsMessage.SetTopics(topics))
-                            dispatch(CourseTopicsMessage.SetLoading(false))
+                            courseRepository.getCoursesByIds(listOf(courseId)).collect { courseTitle ->
+                                dispatch(CourseTopicsMessage.SetCourseTitle(courseTitle.first().title))
+                                dispatch(CourseTopicsMessage.SetTopics(topics))
+                                dispatch(CourseTopicsMessage.SetLoading(false))
+                            }
                         }
                     }
                     onIntent<CourseTopicsIntent.BackClicked> {

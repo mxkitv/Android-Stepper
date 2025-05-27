@@ -19,6 +19,6 @@ interface TopicComponent {
 
     sealed interface Output {
         object NavigateBack : Output
-        object NavigateToTest : Output
+        data class NavigateToTest(val topicId: String) : Output
     }
 }

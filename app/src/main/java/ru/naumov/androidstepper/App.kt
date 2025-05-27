@@ -11,6 +11,7 @@ import org.koin.core.context.GlobalContext.startKoin
 import ru.naumov.androidstepper.data.database.AppDatabase
 import ru.naumov.androidstepper.data.database.CourseEntity
 import ru.naumov.androidstepper.data.database.MaterialEntity
+import ru.naumov.androidstepper.data.database.TestEntity
 import ru.naumov.androidstepper.data.database.TopicEntity
 import ru.naumov.androidstepper.di.appModule
 import kotlin.getValue
@@ -27,15 +28,18 @@ class App : Application() {
         val coursesJson = assets.open("courses.json").bufferedReader().readText()
         val topicsJson = assets.open("topics.json").bufferedReader().readText()
         val materialsJson = assets.open("materials.json").bufferedReader().readText()
+        val testsJson = assets.open("tests.json").bufferedReader().readText()
 
         val courses = Json.decodeFromString<List<CourseEntity>>(coursesJson)
         val topics = Json.decodeFromString<List<TopicEntity>>(topicsJson)
         val materials = Json.decodeFromString<List<MaterialEntity>>(materialsJson)
+        val tests = Json.decodeFromString<List<TestEntity>>(testsJson)
 
         CoroutineScope(Job()).launch {
             db.courseDao().insertAll(courses)
             db.topicDao().insertAll(topics)
             db.materialDao().insertAll(materials)
+            db.testDao().insertAll(tests)
         }
     }
 }

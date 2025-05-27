@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.naumov.androidstepper.R
+import ru.naumov.androidstepper.data.database.CourseEntity
 
 @Composable
 fun CourseDetailScreen(component: CourseDetailComponent) {
@@ -31,7 +32,7 @@ fun CourseDetailScreen(component: CourseDetailComponent) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CourseDetailScreenContent(
-    course: CourseDetailItem?,
+    course: CourseEntity?,
     isLoading: Boolean,
     error: String?,
     onBack: () -> Unit,
@@ -104,41 +105,41 @@ fun CourseDetailScreenContent(
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(Modifier.height(8.dp))
-                    if (course.topics.isEmpty()) {
-                        Text(
-                            text = stringResource(R.string.course_detail_topics_empty),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    } else {
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            course.topics.forEach { topic ->
-                                Card(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    shape = RoundedCornerShape(10.dp),
-                                    elevation = CardDefaults.cardElevation(2.dp)
-                                ) {
-                                    Row(
-                                        modifier = Modifier
-                                            .padding(12.dp)
-                                            .fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Face,
-                                            contentDescription = topic.title,
-                                            modifier = Modifier.size(28.dp),
-                                            tint = MaterialTheme.colorScheme.primary
-                                        )
-                                        Spacer(Modifier.width(12.dp))
-                                        Text(
-                                            text = topic.title,
-                                            style = MaterialTheme.typography.bodyMedium
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
+//                    if (course.topics.isEmpty()) {
+//                        Text(
+//                            text = stringResource(R.string.course_detail_topics_empty),
+//                            color = MaterialTheme.colorScheme.onSurfaceVariant
+//                        )
+//                    } else {
+//                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+//                            course.topics.forEach { topic ->
+//                                Card(
+//                                    modifier = Modifier.fillMaxWidth(),
+//                                    shape = RoundedCornerShape(10.dp),
+//                                    elevation = CardDefaults.cardElevation(2.dp)
+//                                ) {
+//                                    Row(
+//                                        modifier = Modifier
+//                                            .padding(12.dp)
+//                                            .fillMaxWidth(),
+//                                        verticalAlignment = Alignment.CenterVertically
+//                                    ) {
+//                                        Icon(
+//                                            imageVector = Icons.Default.Face,
+//                                            contentDescription = topic.title,
+//                                            modifier = Modifier.size(28.dp),
+//                                            tint = MaterialTheme.colorScheme.primary
+//                                        )
+//                                        Spacer(Modifier.width(12.dp))
+//                                        Text(
+//                                            text = topic.title,
+//                                            style = MaterialTheme.typography.bodyMedium
+//                                        )
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             }
         }
@@ -148,15 +149,10 @@ fun CourseDetailScreenContent(
 @Preview(showBackground = true)
 @Composable
 private fun CourseDetailScreenContentPreview() {
-    val exampleCourse = CourseDetailItem(
+    val exampleCourse = CourseEntity(
         id = "course1",
         title = "Основы Android",
-        description = "Научитесь создавать приложения под Android с нуля.",
-        topics = listOf(
-            TopicItem(id = "topic1", title = "Введение в Android"),
-            TopicItem(id = "topic2", title = "Основы Kotlin"),
-            TopicItem(id = "topic3", title = "UI и Activity"),
-        )
+        description = "Научитесь создавать приложения под Android с нуля."
     )
     MaterialTheme {
         CourseDetailScreenContent(

@@ -1,6 +1,7 @@
 package ru.naumov.androidstepper.courses
 
 import com.arkivanov.decompose.value.Value
+import ru.naumov.androidstepper.data.database.CourseEntity
 
 interface CourseListComponent {
     val model: Value<Model>
@@ -10,8 +11,8 @@ interface CourseListComponent {
     fun onAddCourse(courseId: String)
 
     data class Model(
-        val myCourses: List<CourseListItem> = emptyList(),
-        val allCourses: List<CourseListItem> = emptyList(),
+        val myCourses: List<CourseEntity> = emptyList(),
+        val allCourses: List<CourseEntity> = emptyList(),
         val isLoading: Boolean = false,
         val error: String? = null
     )

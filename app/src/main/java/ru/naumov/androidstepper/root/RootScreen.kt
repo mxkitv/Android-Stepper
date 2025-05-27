@@ -1,4 +1,3 @@
-// File: ru/naumov/androidstepper/root/RootScreen.kt
 package ru.naumov.androidstepper.root
 
 import androidx.compose.runtime.Composable
@@ -15,7 +14,8 @@ import ru.naumov.androidstepper.courses.CourseListScreen
 import ru.naumov.androidstepper.coursedetail.CourseDetailScreen
 import ru.naumov.androidstepper.coursetopics.CourseTopicsScreen
 import ru.naumov.androidstepper.topic.TopicScreen
-import ru.naumov.androidstepper.test.TestScreen // <--- добавлено
+import ru.naumov.androidstepper.test.TestScreen
+import ru.naumov.androidstepper.ui.RootNavigationScreen
 
 @Composable
 fun RootScreen(component: RootComponent) {
@@ -27,12 +27,14 @@ fun RootScreen(component: RootComponent) {
             is RootComponent.Child.Username -> UsernameScreen(child.component)
             is RootComponent.Child.Level -> LevelScreen(child.component)
             is RootComponent.Child.Course -> CourseScreen(child.component)
-            is RootComponent.Child.Home -> HomeScreen(child.component)
-            is RootComponent.Child.CourseList -> CourseListScreen(child.component)
+            is RootComponent.Child.MainTabs -> RootNavigationScreen(
+                homeComponent = child.homeComponent,
+                courseListComponent = child.courseListComponent
+            )
             is RootComponent.Child.CourseDetail -> CourseDetailScreen(child.component)
             is RootComponent.Child.CourseTopics -> CourseTopicsScreen(child.component)
             is RootComponent.Child.Topic -> TopicScreen(child.component)
-            is RootComponent.Child.Test -> TestScreen(child.component)           // <--- добавлено
+            is RootComponent.Child.Test -> TestScreen(child.component)
             is RootComponent.Child.Loading -> {}
         }
     }

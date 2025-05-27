@@ -4,31 +4,11 @@
     "title": "Основы Android",
     "description": "Введение в разработку под Android: архитектура, инструменты, первый проект.",
     "topics": [
-      {
-        "id": "android_intro",
-        "title": "Что такое Android?",
-        "description": "История, особенности и перспективы платформы."
-      },
-      {
-        "id": "android_studio",
-        "title": "Знакомство с Android Studio",
-        "description": "Как установить, настроить и запустить первую программу."
-      },
-      {
-        "id": "project_structure",
-        "title": "Структура проекта",
-        "description": "Основные папки и файлы, манифест, Gradle."
-      },
-      {
-        "id": "activity_lifecycle",
-        "title": "Activity и жизненный цикл",
-        "description": "Что такое Activity, жизненный цикл, основные методы."
-      },
-      {
-        "id": "ui_basics",
-        "title": "Базовые элементы интерфейса",
-        "description": "TextView, Button, EditText и их использование."
-      }
+      { "id": "android_intro", "title": "Что такое Android?", "description": "История, особенности и перспективы платформы." },
+      { "id": "android_studio", "title": "Знакомство с Android Studio", "description": "Как установить, настроить и запустить первую программу." },
+      { "id": "project_structure", "title": "Структура проекта", "description": "Основные папки и файлы, манифест, Gradle." },
+      { "id": "activity_lifecycle", "title": "Activity и жизненный цикл", "description": "Что такое Activity, жизненный цикл, основные методы." },
+      { "id": "ui_basics", "title": "Базовые элементы интерфейса", "description": "TextView, Button, EditText и их использование." }
     ]
   },
   {
@@ -36,31 +16,11 @@
     "title": "Kotlin для Android",
     "description": "Язык программирования Kotlin — современный стандарт для Android.",
     "topics": [
-      {
-        "id": "kotlin_syntax",
-        "title": "Базовый синтаксис Kotlin",
-        "description": "Переменные, типы данных, выражения, инструкции."
-      },
-      {
-        "id": "kotlin_functions",
-        "title": "Функции и параметры",
-        "description": "Как объявлять и использовать функции в Kotlin."
-      },
-      {
-        "id": "kotlin_classes",
-        "title": "Классы и объекты",
-        "description": "Основы ООП: классы, конструкторы, свойства."
-      },
-      {
-        "id": "kotlin_collections",
-        "title": "Коллекции",
-        "description": "Списки, множества, карты, работа с коллекциями."
-      },
-      {
-        "id": "kotlin_null_safety",
-        "title": "Null-safety",
-        "description": "Работа с nullable-типами и безопасным кодом."
-      }
+      { "id": "kotlin_syntax", "title": "Базовый синтаксис Kotlin", "description": "Переменные, типы данных, выражения, инструкции." },
+      { "id": "kotlin_functions", "title": "Функции и параметры", "description": "Как объявлять и использовать функции в Kotlin." },
+      { "id": "kotlin_classes", "title": "Классы и объекты", "description": "Основы ООП: классы, конструкторы, свойства." },
+      { "id": "kotlin_collections", "title": "Коллекции", "description": "Списки, множества, карты, работа с коллекциями." },
+      { "id": "kotlin_null_safety", "title": "Null-safety", "description": "Работа с nullable-типами и безопасным кодом." }
     ]
   },
   {
@@ -68,26 +28,10 @@
     "title": "Jetpack Compose",
     "description": "Современный подход к созданию UI в Android.",
     "topics": [
-      {
-        "id": "compose_intro",
-        "title": "Введение в Compose",
-        "description": "Зачем нужен Compose и его плюсы."
-      },
-      {
-        "id": "compose_basic_elements",
-        "title": "Базовые компоненты Compose",
-        "description": "Text, Button, Row, Column, Image."
-      },
-      {
-        "id": "compose_state",
-        "title": "Работа с состоянием",
-        "description": "MutableState, State, remember."
-      },
-      {
-        "id": "compose_navigation",
-        "title": "Навигация в Compose",
-        "description": "Навигация между экранами с Compose Navigation."
-      }
+      { "id": "compose_intro", "title": "Введение в Compose", "description": "Зачем нужен Compose и его плюсы." },
+      { "id": "compose_basic_elements", "title": "Базовые компоненты Compose", "description": "Text, Button, Row, Column, Image." },
+      { "id": "compose_state", "title": "Работа с состоянием", "description": "MutableState, State, remember." },
+      { "id": "compose_navigation", "title": "Навигация в Compose", "description": "Навигация между экранами с Compose Navigation." }
     ]
   },
   {
@@ -95,26 +39,10 @@
     "title": "Архитектура Android-приложений",
     "description": "Почему важна архитектура и как строить поддерживаемые приложения.",
     "topics": [
-      {
-        "id": "mvi_intro",
-        "title": "Введение в архитектуру",
-        "description": "Что такое архитектура, зачем она нужна."
-      },
-      {
-        "id": "mvi_pattern",
-        "title": "Паттерн MVI",
-        "description": "Model-View-Intent — основы и принципы."
-      },
-      {
-        "id": "mvi_in_mvikotlin",
-        "title": "MVIKotlin",
-        "description": "Практика: использование MVIKotlin для управления состоянием."
-      },
-      {
-        "id": "repository_pattern",
-        "title": "Паттерн Repository",
-        "description": "Изоляция данных от UI, преимущества."
-      }
+      { "id": "mvi_intro", "title": "Введение в архитектуру", "description": "Что такое архитектура, зачем она нужна." },
+      { "id": "mvi_pattern", "title": "Паттерн MVI", "description": "Model-View-Intent — основы и принципы." },
+      { "id": "mvi_in_mvikotlin", "title": "MVIKotlin", "description": "Практика: использование MVIKotlin для управления состоянием." },
+      { "id": "repository_pattern", "title": "Паттерн Repository", "description": "Изоляция данных от UI, преимущества." }
     ]
   },
   {
@@ -122,21 +50,64 @@
     "title": "Хранение данных",
     "description": "Способы хранения данных в Android.",
     "topics": [
-      {
-        "id": "room_intro",
-        "title": "Введение в Room",
-        "description": "Для чего нужен Room и как он работает."
-      },
-      {
-        "id": "room_entities",
-        "title": "Создание сущностей Room",
-        "description": "Entity, Dao, Database — простейшая реализация."
-      },
-      {
-        "id": "datastore",
-        "title": "DataStore",
-        "description": "Хранение простых данных и настроек пользователя."
-      }
+      { "id": "room_intro", "title": "Введение в Room", "description": "Для чего нужен Room и как он работает." },
+      { "id": "room_entities", "title": "Создание сущностей Room", "description": "Entity, Dao, Database — простейшая реализация." },
+      { "id": "datastore", "title": "DataStore", "description": "Хранение простых данных и настроек пользователя." }
+    ]
+  },
+  {
+    "id": "ui_advanced",
+    "title": "Продвинутый UI",
+    "description": "Анимации, стили и темы в Android-приложениях.",
+    "topics": [
+      { "id": "ui_animation", "title": "Анимации", "description": "Обзор Property Animation, View Animation, Transition API." },
+      { "id": "ui_theme", "title": "Темы и стили", "description": "Создание и использование тем, кастомизация внешнего вида." },
+      { "id": "ui_custom_views", "title": "Кастомные View", "description": "Создание собственных компонентов для UI." },
+      { "id": "ui_adaptive", "title": "Адаптивный дизайн", "description": "Работа с экранами разных размеров и плотностей." }
+    ]
+  },
+  {
+    "id": "networking",
+    "title": "Сетевые технологии",
+    "description": "Работа с сетью, API, обмен данными в Android.",
+    "topics": [
+      { "id": "network_basics", "title": "Основы работы с сетью", "description": "HTTP, REST, основы запросов и ответов." },
+      { "id": "retrofit_intro", "title": "Retrofit", "description": "Подключение и базовая настройка популярной библиотеки." },
+      { "id": "json_parsing", "title": "Парсинг JSON", "description": "Работа с JSON, популярные библиотеки." },
+      { "id": "network_security", "title": "Безопасность", "description": "HTTPS, хранение токенов, безопасность пользовательских данных." }
+    ]
+  },
+  {
+    "id": "testing",
+    "title": "Тестирование приложений",
+    "description": "Автоматизация проверки качества Android-приложений.",
+    "topics": [
+      { "id": "unit_testing", "title": "Unit-тесты", "description": "JUnit, тестирование бизнес-логики." },
+      { "id": "ui_testing", "title": "UI-тесты", "description": "Espresso, Robot Pattern, UI-автоматизация." },
+      { "id": "mocking", "title": "Mocking", "description": "MockK, Mockito — подмена зависимостей." },
+      { "id": "ci_cd", "title": "CI/CD", "description": "Введение в автоматизацию сборки и деплоя." }
+    ]
+  },
+  {
+    "id": "performance",
+    "title": "Производительность и оптимизация",
+    "description": "Как писать быстрые и эффективные приложения.",
+    "topics": [
+      { "id": "memory_leaks", "title": "Утечки памяти", "description": "Как обнаруживать и устранять утечки." },
+      { "id": "profiling", "title": "Профилирование", "description": "Инструменты Android Studio для поиска проблем." },
+      { "id": "optimizing_ui", "title": "Оптимизация UI", "description": "Как ускорить интерфейс и уменьшить лаги." },
+      { "id": "battery_usage", "title": "Экономия батареи", "description": "Снижение потребления энергии приложением." }
+    ]
+  },
+  {
+    "id": "publishing",
+    "title": "Публикация приложения",
+    "description": "Подготовка и публикация приложения в Google Play.",
+    "topics": [
+      { "id": "preparing_release", "title": "Подготовка к релизу", "description": "Сборка, подписание и конфигурирование релизной версии." },
+      { "id": "play_console", "title": "Google Play Console", "description": "Работа с консолью разработчика Google Play." },
+      { "id": "app_updates", "title": "Обновления приложения", "description": "Планирование и выкладка обновлений." },
+      { "id": "user_feedback", "title": "Отзывы пользователей", "description": "Работа с отзывами, улучшение приложения." }
     ]
   }
 ]

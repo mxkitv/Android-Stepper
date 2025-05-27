@@ -12,17 +12,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import ru.naumov.androidstepper.asValue
+import ru.naumov.androidstepper.data.CourseRepository
+import ru.naumov.androidstepper.data.SelectedCourseRepository
 
 class CourseDetailComponentImpl(
     componentContext: ComponentContext,
     storeFactory: StoreFactory,
+    private val courseId: String,
     private val output: Consumer<CourseDetailComponent.Output>
-) : CourseDetailComponent, ComponentContext by componentContext {
+) : CourseDetailComponent, ComponentContext by componentContext, KoinComponent {
+
+    private val courseRepository: CourseRepository by inject()
+    private val selectedCourseRepository: SelectedCourseRepository by inject()
 
     private val store =
         instanceKeeper.getStore {
-            CourseDetailStoreFactory(storeFactory).create()
+            CourseDetailStoreFactory(
+                storeFactory = storeFactory,
+                courseRepository = courseRepository,
+                selectedCourseRepository = selectedCourseRepository
+            ).create(courseId)
         }
 
     override val model: Value<CourseDetailComponent.CourseDetailModel> = store.asValue().map(stateToModel)
@@ -46,6 +58,6 @@ class CourseDetailComponentImpl(
     }
 
     override fun onAddCourseClicked() {
-        output.onNext(CourseDetailComponent.Output.CourseAdded)
+        store.accept(CourseDetailIntent.AddCourseClicked)
     }
 }

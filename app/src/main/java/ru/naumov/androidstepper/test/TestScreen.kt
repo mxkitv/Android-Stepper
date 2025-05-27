@@ -2,9 +2,10 @@ package ru.naumov.androidstepper.test
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,7 +23,8 @@ fun TestScreen(component: TestComponent) {
         onAnswerSelected = component::onAnswerSelected,
         onSubmit = component::onSubmit,
         onRetry = component::onRetry,
-        onBack = component::onBack
+        onBack = component::onBack,
+        onContinue = component::onContinue
     )
 }
 
@@ -33,7 +35,8 @@ private fun TestScreenContent(
     onAnswerSelected: (String, Int) -> Unit,
     onSubmit: () -> Unit,
     onRetry: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onContinue: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -47,40 +50,74 @@ private fun TestScreenContent(
             )
         }
     ) { padding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Top
         ) {
-            if (model.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-            } else if (model.showResult) {
-                Text("Результат: ${model.correctCount} из ${model.questions.size}")
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = onRetry, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                    Text("Попробовать снова")
+            when {
+                model.isLoading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
-            } else {
-                model.questions.forEachIndexed { index, question ->
-                    QuestionItem(
-                        question = question,
-                        selectedAnswer = model.answers[question.id],
-                        onSelect = { answerIdx ->
-                            onAnswerSelected(question.id, answerIdx)
+                model.showResult -> {
+                    // Все ответы верные?
+                    val allCorrect = model.correctCount == model.questions.size && model.questions.isNotEmpty()
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        if (allCorrect) {
+                            Text(
+                                text = "Поздравляем, вы ответили правильно на все вопросы!",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.primary,
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.height(24.dp))
+                            Button(onClick = onContinue) {
+                                Text("Продолжить")
+                            }
+                        } else {
+                            Text("Результат: ${model.correctCount} из ${model.questions.size}")
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(onClick = onRetry) {
+                                Text("Попробовать снова")
+                            }
                         }
-                    )
-                    Spacer(modifier = Modifier.height(24.dp))
+                    }
                 }
-                if (model.error != null) {
-                    Text(model.error!!, color = MaterialTheme.colorScheme.error)
-                }
-                Button(
-                    onClick = onSubmit,
-                    modifier = Modifier.align(Alignment.End)
-                ) {
-                    Text("Проверить")
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(24.dp)
+                    ) {
+                        itemsIndexed(model.questions) { _, question ->
+                            QuestionItem(
+                                question = question,
+                                selectedAnswer = model.answers[question.id],
+                                onSelect = { answerIdx ->
+                                    onAnswerSelected(question.id, answerIdx)
+                                }
+                            )
+                        }
+                        item {
+                            if (model.error != null) {
+                                Text(model.error!!, color = MaterialTheme.colorScheme.error)
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+                            Button(
+                                onClick = onSubmit,
+                                modifier = Modifier.align(Alignment.BottomCenter)
+                            ) {
+                                Text("Проверить")
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -89,28 +126,30 @@ private fun TestScreenContent(
 
 @Composable
 private fun QuestionItem(
-    question: Question,
+    question: ru.naumov.androidstepper.data.database.Question,
     selectedAnswer: Int?,
     onSelect: (Int) -> Unit
 ) {
-    Text(question.text, style = MaterialTheme.typography.titleMedium)
-    Spacer(modifier = Modifier.height(8.dp))
-    question.answers.forEachIndexed { idx, answer ->
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .selectable(
+    Column {
+        Text(question.text, style = MaterialTheme.typography.titleMedium)
+        Spacer(modifier = Modifier.height(8.dp))
+        question.answers.withIndex().forEach { (idx, answer) ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = selectedAnswer == idx,
+                        onClick = { onSelect(idx) }
+                    )
+                    .padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
                     selected = selectedAnswer == idx,
                     onClick = { onSelect(idx) }
                 )
-                .padding(vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(
-                selected = selectedAnswer == idx,
-                onClick = { onSelect(idx) }
-            )
-            Text(answer, style = MaterialTheme.typography.bodyLarge)
+                Text(answer, style = MaterialTheme.typography.bodyLarge)
+            }
         }
     }
 }
@@ -119,13 +158,13 @@ private fun QuestionItem(
 @Composable
 fun TestScreenContentPreview() {
     val questions = listOf(
-        Question(
+        ru.naumov.androidstepper.data.database.Question(
             id = "q1",
             text = "Что такое Android?",
             answers = listOf("ОС", "Язык программирования", "Фреймворк"),
             correctAnswer = 0
         ),
-        Question(
+        ru.naumov.androidstepper.data.database.Question(
             id = "q2",
             text = "Кто разрабатывает Jetpack Compose?",
             answers = listOf("Apple", "Google", "Microsoft"),
@@ -134,17 +173,18 @@ fun TestScreenContentPreview() {
     )
     val model = TestComponent.TestModel(
         questions = questions,
-        answers = mapOf("q1" to 0),
+        answers = mapOf("q1" to 0, "q2" to 1),
         isLoading = false,
         error = null,
-        showResult = false,
-        correctCount = 0
+        showResult = true,
+        correctCount = 2
     )
     TestScreenContent(
         model = model,
         onAnswerSelected = { _, _ -> },
         onSubmit = {},
         onRetry = {},
-        onBack = {}
+        onBack = {},
+        onContinue = {},
     )
 }

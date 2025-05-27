@@ -1,5 +1,7 @@
 package ru.naumov.androidstepper.test
 
+import ru.naumov.androidstepper.data.database.Question
+
 data class TestState(
     val questions: List<Question> = emptyList(),
     val answers: Map<String, Int> = emptyMap(), // questionId -> answerIndex

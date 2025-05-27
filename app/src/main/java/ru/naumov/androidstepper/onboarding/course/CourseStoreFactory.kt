@@ -26,9 +26,12 @@ class CourseStoreFactory(
                     onAction<CourseAction.LoadCourses> {
                         dispatch(CourseMessage.SetLoading(true))
                         launch {
-                            val allCourses = courseRepository.getAllCourses()
-                            val selectedIds = selectedCourseRepository.getSelectedCourses()
-                            dispatch(CourseMessage.SetCourses(allCourses, selectedIds))
+                            courseRepository.getAllCourses().collect { allCourses ->
+                                selectedCourseRepository.getSelectedCourses()
+                                    .collect { selectedIds ->
+                                        dispatch(CourseMessage.SetCourses(allCourses, selectedIds))
+                                    }
+                            }
                         }
                     }
                     onIntent<CourseIntent.ToggleCourse> { intent ->
@@ -56,6 +59,7 @@ class CourseStoreFactory(
                             selectedCourseIds = msg.selectedIds.toSet(),
                             isLoading = false
                         )
+
                         is CourseMessage.SetSelectedCourses -> copy(selectedCourseIds = msg.selected)
                         is CourseMessage.SetLoading -> copy(isLoading = msg.value)
                     }

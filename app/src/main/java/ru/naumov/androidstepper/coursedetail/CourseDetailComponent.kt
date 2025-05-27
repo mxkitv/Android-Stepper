@@ -1,6 +1,7 @@
 package ru.naumov.androidstepper.coursedetail
 
 import com.arkivanov.decompose.value.Value
+import ru.naumov.androidstepper.data.database.CourseEntity
 
 interface CourseDetailComponent {
     val model: Value<CourseDetailModel>
@@ -9,7 +10,7 @@ interface CourseDetailComponent {
     fun onAddCourseClicked()
 
     data class CourseDetailModel(
-        val course: CourseDetailItem? = null,
+        val course: CourseEntity? = null,
         val isLoading: Boolean = false,
         val error: String? = null
     )
